@@ -1,0 +1,60 @@
+import type { ITransactionRepository, TransactionInput } from '@/entities/transaction';
+import type { Transaction } from '@/entities/transaction';
+
+const MESSAGES = {
+    NOT_FOUND: 'Transação não encontrada',
+    INVALID_AMOUNT: 'O valor deve ser um número positivo',
+    INVALID_RECENT_LIMIT: 'O limite deve ser um número positivo'
+} as const;
+
+export class TransactionService {
+    constructor(private readonly repository: ITransactionRepository) { }
+
+    // TODO: Definir debito e credito
+
+    async adicionar(input: TransactionInput) {
+        this.validarValor(input.valor);
+        return this.repository.adicionar(input);
+    }
+
+    async buscarPorId(id: number) {
+        const transaction = await this.repository.buscarPorId(id);
+        if (!transaction) throw new Error(MESSAGES.NOT_FOUND);
+        return transaction;
+    }
+
+    async pesquisar(filters?: Transaction) {
+        return this.repository.pesquisar(filters);
+    }
+
+    async atualizar(id: number, input: TransactionInput) {
+        this.validarValor(input.valor);
+        const updated = await this.repository.atualizar(id, input);
+        if (!updated) throw new Error(MESSAGES.NOT_FOUND);
+        return updated;
+    }
+
+    async deletar(id: number) {
+        const deleted = await this.repository.deletar(id);
+        if (!deleted) throw new Error(MESSAGES.NOT_FOUND);
+    }
+
+    buscarSaldo() {
+        return this.repository.buscarSaldo();
+    }
+
+    async buscarUltimasTransacoes(limit: number = 4) {
+        if (limit <= 0) throw new Error(MESSAGES.INVALID_RECENT_LIMIT);
+
+        const all = await this.repository.pesquisar();
+
+        return all
+            .sort((a, b) => b.dataCadastro.getTime() - a.dataCadastro.getTime())
+            .slice(0, limit);
+    }
+
+    private validarValor(valor: number = 0) {
+        if (isNaN(valor) || valor <= 0)
+            throw new Error(MESSAGES.INVALID_AMOUNT);
+    }
+}
