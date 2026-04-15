@@ -1,4 +1,4 @@
-import type { ITransactionRepository, TransactionInput } from '@/entities/transaction';
+import type { ITransactionRepository, TransactionInput, TransactionSearch } from '@/entities/transaction';
 import type { Transaction } from '@/entities/transaction';
 
 const MESSAGES = {
@@ -23,7 +23,7 @@ export class TransactionService {
         return transaction;
     }
 
-    async pesquisar(filters?: Transaction) {
+    async pesquisar(filters?: TransactionSearch) {
         return this.repository.pesquisar(filters);
     }
 
@@ -39,18 +39,13 @@ export class TransactionService {
         if (!deleted) throw new Error(MESSAGES.NOT_FOUND);
     }
 
-    buscarSaldo() {
+    async buscarSaldo() {
         return this.repository.buscarSaldo();
     }
 
     async buscarUltimasTransacoes(limit: number = 4) {
         if (limit <= 0) throw new Error(MESSAGES.INVALID_RECENT_LIMIT);
-
-        const all = await this.repository.pesquisar();
-
-        return all
-            .sort((a, b) => b.dataCadastro.getTime() - a.dataCadastro.getTime())
-            .slice(0, limit);
+        return this.repository.buscarUltimasTransacoes(limit);
     }
 
     private validarValor(valor: number = 0) {

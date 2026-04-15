@@ -1,5 +1,5 @@
 import { type ITransactionRepository, type TransactionInput } from '@/entities/transaction';
-import type { Transaction } from '@/entities/transaction';
+import type { Transaction, TransactionSearch } from '@/entities/transaction';
 import { MOCK_TRANSACTIONS } from '@/shared/mocks/data/transactions';
 
 export class MockTransactionRepository implements ITransactionRepository {
@@ -16,7 +16,7 @@ export class MockTransactionRepository implements ITransactionRepository {
 
         const transaction: Transaction = {
             id: id,
-            valor: input?.valor ?? 0,
+            valor: input.valor ?? 0,
             tipo: input.tipo,
             descricao: input.descricao,
             dataCadastro: new Date()
@@ -29,7 +29,7 @@ export class MockTransactionRepository implements ITransactionRepository {
         return this.store.get(id) ?? null;
     }
 
-    async pesquisar(filters?: Transaction): Promise<Transaction[]> {
+    async pesquisar(filters?: TransactionSearch): Promise<Transaction[]> {
         let results = Array.from(this.store.values());
 
         if (filters?.tipo)
@@ -60,6 +60,13 @@ export class MockTransactionRepository implements ITransactionRepository {
         return results.reduce((total, dados) => {
             return total + dados.valor;
         }, 0);
+    }
+
+    async buscarUltimasTransacoes(limit: number): Promise<Transaction[]> {
+        let results = Array.from(this.store.values());
+        return results
+            .sort((a, b) => b.dataCadastro.getTime() - a.dataCadastro.getTime())
+            .slice(0, limit);
     }
 
     reset(): void {

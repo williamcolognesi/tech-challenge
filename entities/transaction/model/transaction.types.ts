@@ -18,3 +18,8 @@ export interface TransactionInput {
   tipo?: TransactionType;
   descricao?: string;
 }
+
+export interface TransactionSearch {
+  tipo?: TransactionType;
+  descricao?: string;
+}
