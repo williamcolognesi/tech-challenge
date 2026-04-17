@@ -1,5 +1,4 @@
-import type { ITransactionRepository, TransactionInput, TransactionSearch } from '@/entities/transaction';
-import type { Transaction } from '@/entities/transaction';
+import { TRANSACTION_DIRECTION, type ITransactionRepository, type TransactionInput, type TransactionSearch } from '@/entities/transaction';
 
 const MESSAGES = {
     NOT_FOUND: 'Transação não encontrada',
@@ -9,8 +8,6 @@ const MESSAGES = {
 
 export class TransactionService {
     constructor(private readonly repository: ITransactionRepository) { }
-
-    // TODO: Definir debito e credito
 
     async adicionar(input: TransactionInput) {
         this.validarValor(input.valor);
@@ -40,7 +37,13 @@ export class TransactionService {
     }
 
     async buscarSaldo() {
-        return this.repository.buscarSaldo();
+        const all = await this.repository.pesquisar();
+
+        return all.reduce((acc, t) => {
+            return t.direcao === TRANSACTION_DIRECTION.ENTRADA.codigo
+                ? acc + t.valor
+                : acc - t.valor;
+        }, 0);
     }
 
     async buscarUltimasTransacoes(limit: number = 4) {

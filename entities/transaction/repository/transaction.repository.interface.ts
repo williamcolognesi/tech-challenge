@@ -6,6 +6,5 @@ export interface ITransactionRepository {
     pesquisar(filters?: TransactionSearch): Promise<Transaction[]>;
     atualizar(id: number, input: TransactionInput): Promise<Transaction | null>;
     deletar(id: number): Promise<boolean>;
-    buscarSaldo(): Promise<number>;
     buscarUltimasTransacoes(limit: number): Promise<Transaction[]>;
 }

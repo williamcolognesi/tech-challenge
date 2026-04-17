@@ -16,8 +16,9 @@ export class MockTransactionRepository implements ITransactionRepository {
 
         const transaction: Transaction = {
             id: id,
-            valor: input.valor ?? 0,
+            valor: input.valor,
             tipo: input.tipo,
+            direcao: input.direcao,
             descricao: input.descricao,
             dataCadastro: new Date()
         };
@@ -34,6 +35,8 @@ export class MockTransactionRepository implements ITransactionRepository {
 
         if (filters?.tipo)
             results = results.filter(t => t.tipo === filters.tipo);
+        if (filters?.direcao)
+            results = results.filter(t => t.direcao === filters.direcao);
         if (filters?.descricao)
             results = results.filter(t =>
                 t.descricao?.toLowerCase().includes(filters.descricao!.toLowerCase())
@@ -53,13 +56,6 @@ export class MockTransactionRepository implements ITransactionRepository {
 
     async deletar(id: number): Promise<boolean> {
         return this.store.delete(id);
-    }
-
-    async buscarSaldo(): Promise<number> {
-        let results = Array.from(this.store.values());
-        return results.reduce((total, dados) => {
-            return total + dados.valor;
-        }, 0);
     }
 
     async buscarUltimasTransacoes(limit: number): Promise<Transaction[]> {

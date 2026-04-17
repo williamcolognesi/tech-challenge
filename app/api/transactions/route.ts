@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import type { TransactionInput, TransactionSearch } from '@/entities/transaction';
+import type { TransactionDirection, TransactionInput, TransactionSearch } from '@/entities/transaction';
 import { TransactionType } from '@/entities/transaction';
 import { transactionService } from '@/shared/lib/transaction.factory';
 
@@ -9,7 +9,8 @@ export async function GET(req: NextRequest) {
 
         const filters: TransactionSearch = {
             tipo: (searchParams.get('tipo') as TransactionType) ?? undefined,
-            descricao: searchParams.get('descricao') ?? undefined,
+            direcao: (searchParams.get('direcao') as TransactionDirection) ?? undefined,
+            descricao: searchParams.get('descricao') ?? undefined
         };
 
         const transactions = await transactionService.pesquisar(filters);
