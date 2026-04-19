@@ -46,7 +46,7 @@ export class TransactionService {
         }, 0);
     }
 
-    async buscarUltimasTransacoes(limit: number = 4) {
+    async buscarUltimasTransacoes(limit: number) {
         if (limit <= 0) throw new Error(MESSAGES.INVALID_RECENT_LIMIT);
         return this.repository.buscarUltimasTransacoes(limit);
     }
