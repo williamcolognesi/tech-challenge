@@ -1,6 +1,6 @@
 import { type ITransactionRepository, type TransactionInput } from '@/entities/transaction';
 import type { Transaction, TransactionSearch } from '@/entities/transaction';
-import { MOCK_TRANSACTIONS } from '@/shared/mocks/data/transactions';
+import { MOCK_TRANSACTIONS } from '@/mocks/transaction/data/transactions';
 
 export class MockTransactionRepository implements ITransactionRepository {
     private store: Map<number, Transaction>;

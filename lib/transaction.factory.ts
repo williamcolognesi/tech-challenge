@@ -1,5 +1,5 @@
 import { TransactionService } from '@/services/transaction/transaction.service';
-import { MockTransactionRepository } from '@/infrastructure/transaction/transaction.repository.mock';
+import { MockTransactionRepository } from '@/mocks/transaction/transaction.repository.mock';
 
 const repository = new MockTransactionRepository();
 

@@ -1,4 +1,4 @@
-import { transactionService } from '@/shared/lib/transaction.factory';
+import { transactionService } from '@/lib/transaction.factory';
 import type { Transaction } from '@/entities/transaction';
 
 const DEFAULTS = { LIMIT: 5 } as const;
