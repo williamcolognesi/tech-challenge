@@ -1,10 +1,10 @@
 export const TRANSACTION_DIRECTION = {
   ENTRADA: {
-    codigo: 'ENTRADA',
+    codigo: 1,
     descricao: 'Entrada',
   },
   SAIDA: {
-    codigo: 'SAIDA',
+    codigo: 2,
     descricao: 'Saída',
   },
 } as const;
@@ -13,19 +13,23 @@ export type TransactionDirection = typeof TRANSACTION_DIRECTION[keyof typeof TRA
 
 export const TRANSACTION_TYPE = {
   PIX: {
-    codigo: 'PIX',
+    codigo: 1,
     descricao: 'Pix',
   },
   DEPOSITO: {
-    codigo: 'DEPOSITO',
+    codigo: 2,
     descricao: 'Depósito',
   },
   TRANSFERENCIA: {
-    codigo: 'TRANSFERENCIA',
+    codigo: 3,
     descricao: 'Transferência',
   },
+  SAQUE: {
+    codigo: 4,
+    descricao: 'Saque',
+  },
   OUTROS: {
-    codigo: 'OUTROS',
+    codigo: 5,
     descricao: 'Outros',
   },
 } as const;

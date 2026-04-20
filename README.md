@@ -68,6 +68,7 @@ src/
 │   │   ├── api/              # Funções isoladas de chamadas de rede/mock (ex: getTransactions)
 │   │   ├── components/       # Componentes atrelados à regra de negócio (ex: TransactionForm, TransactionList)
 │   │   ├── hooks/            # Hooks de controle de estado (ex: useCreateTransaction)
+│   │   ├── services/         # Regras de negócio puras e orquestração (ex: TransactionService)
 │   │   ├── types/            # Interfaces e DTOs de transação (ex: ITransaction)
 │   │   └── utils/            # Regras específicas do domínio (ex: calculateBalance)
 │   │

@@ -1,1 +1,0 @@
-export { getRecentTransactions } from './queries/getRecentTransactions';

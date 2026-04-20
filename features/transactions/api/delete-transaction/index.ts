@@ -1,1 +1,0 @@
-export { deleteTransaction } from './actions/deleteTransaction';

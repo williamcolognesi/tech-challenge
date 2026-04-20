@@ -1,1 +1,0 @@
-export { getTransactionById } from './queries/getTransactionById';
