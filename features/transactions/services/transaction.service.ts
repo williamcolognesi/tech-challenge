@@ -1,4 +1,5 @@
-import { TRANSACTION_DIRECTION, type ITransactionRepository, type TransactionInput, type TransactionSearch } from '@/entities/transaction';
+import { TRANSACTION_DIRECTION, type TransactionInput, type TransactionSearch } from '@/entities/transaction';
+import { ITransactionRepository } from '../repositories/transaction.repository.interface';
 
 const MESSAGES = {
     NOT_FOUND: 'Transação não encontrada',

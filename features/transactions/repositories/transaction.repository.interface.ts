@@ -1,4 +1,4 @@
-import { Transaction, TransactionInput, TransactionSearch } from "../model/transaction.types";
+import { Transaction, TransactionInput, TransactionSearch } from "@/entities/transaction";
 
 export interface ITransactionRepository {
     adicionar(input: TransactionInput): Promise<Transaction>;

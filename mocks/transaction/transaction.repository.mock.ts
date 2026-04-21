@@ -1,5 +1,6 @@
-import { type ITransactionRepository, type TransactionInput } from '@/entities/transaction';
+import { type TransactionInput } from '@/entities/transaction';
 import type { Transaction, TransactionSearch } from '@/entities/transaction';
+import { ITransactionRepository } from '@/features/transactions/repositories/transaction.repository.interface';
 import { MOCK_TRANSACTIONS } from '@/mocks/transaction/data/transactions';
 
 export class MockTransactionRepository implements ITransactionRepository {
