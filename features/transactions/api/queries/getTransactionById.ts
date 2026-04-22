@@ -1,6 +1,6 @@
-import { transactionService } from '@/lib/transaction.factory';
-import type { Transaction } from '@/entities/transaction';
+import { transactionService } from '@/lib/factories/transaction.factory';
+import type { ITransaction } from '../../model/transaction.types';
 
-export async function getTransactionById(id: number): Promise<Transaction> {
+export async function getTransactionById(id: number): Promise<ITransaction> {
     return transactionService.buscarPorId(id);
 }

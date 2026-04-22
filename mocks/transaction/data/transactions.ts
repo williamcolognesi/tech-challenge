@@ -1,6 +1,7 @@
-import { Transaction, TRANSACTION_DIRECTION, TRANSACTION_TYPE } from "@/entities/transaction";
+import { TRANSACTION_DIRECTION, TRANSACTION_TYPE } from "@/features/transactions/model/constants";
+import type { ITransaction } from "@/features/transactions/model/transaction.types";
 
-export const MOCK_TRANSACTIONS: Transaction[] = [
+export const MOCK_TRANSACTIONS: ITransaction[] = [
   {
     id: 1,
     valor: 1500.00,

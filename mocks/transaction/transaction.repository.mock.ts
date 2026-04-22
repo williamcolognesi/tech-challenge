@@ -1,21 +1,22 @@
-import { type TransactionInput } from '@/entities/transaction';
-import type { Transaction, TransactionSearch } from '@/entities/transaction';
+import type { ITransactionInput } from '@/features/transactions/model/transaction.inputs.types';
+import type { ITransactionSearch } from '@/features/transactions/model/transaction.search.types';
+import type { ITransaction } from '@/features/transactions/model/transaction.types';
 import { ITransactionRepository } from '@/features/transactions/repositories/transaction.repository.interface';
 import { MOCK_TRANSACTIONS } from '@/mocks/transaction/data/transactions';
 
 export class MockTransactionRepository implements ITransactionRepository {
-    private store: Map<number, Transaction>;
+    private store: Map<number, ITransaction>;
     private nextId: number;
 
-    constructor(seed: Transaction[] = MOCK_TRANSACTIONS) {
+    constructor(seed: ITransaction[] = MOCK_TRANSACTIONS) {
         this.store = new Map(seed.map(t => [t.id, t]));
         this.nextId = seed.length ? Math.max(...seed.map(t => t.id)) + 1 : 1;
     }
 
-    async adicionar(input: TransactionInput): Promise<Transaction> {
+    async adicionar(input: ITransactionInput): Promise<ITransaction> {
         const id: number = this.nextId++;
 
-        const transaction: Transaction = {
+        const transaction: ITransaction = {
             id: id,
             valor: input.valor,
             tipo: input.tipo,
@@ -27,11 +28,11 @@ export class MockTransactionRepository implements ITransactionRepository {
         return transaction;
     }
 
-    async buscarPorId(id: number): Promise<Transaction | null> {
+    async buscarPorId(id: number): Promise<ITransaction | null> {
         return this.store.get(id) ?? null;
     }
 
-    async pesquisar(filters?: TransactionSearch): Promise<Transaction[]> {
+    async pesquisar(filters?: ITransactionSearch): Promise<ITransaction[]> {
         let results = Array.from(this.store.values());
 
         if (filters?.tipo)
@@ -46,11 +47,11 @@ export class MockTransactionRepository implements ITransactionRepository {
         return results.sort((a, b) => b.dataCadastro.getTime() - a.dataCadastro.getTime());
     }
 
-    async atualizar(id: number, input: TransactionInput): Promise<Transaction | null> {
+    async atualizar(id: number, input: ITransactionInput): Promise<ITransaction | null> {
         const existing = this.store.get(id);
         if (!existing) return null;
 
-        const updated: Transaction = { ...existing, ...input, dataAtualizacao: new Date() };
+        const updated: ITransaction = { ...existing, ...input, dataAtualizacao: new Date() };
         this.store.set(id, updated);
         return updated;
     }
@@ -59,7 +60,7 @@ export class MockTransactionRepository implements ITransactionRepository {
         return this.store.delete(id);
     }
 
-    async buscarUltimasTransacoes(limit: number): Promise<Transaction[]> {
+    async buscarUltimasTransacoes(limit: number): Promise<ITransaction[]> {
         let results = Array.from(this.store.values());
         return results
             .sort((a, b) => b.dataCadastro.getTime() - a.dataCadastro.getTime())

@@ -1,8 +1,8 @@
-import { transactionService } from '@/lib/transaction.factory';
-import type { Transaction } from '@/entities/transaction';
+import { transactionService } from '@/lib/factories/transaction.factory';
+import type { ITransaction } from '../../model/transaction.types';
 
 const DEFAULTS = { LIMIT: 5 } as const;
 
-export async function getRecentTransactions(limit = DEFAULTS.LIMIT): Promise<Transaction[]> {
+export async function getRecentTransactions(limit = DEFAULTS.LIMIT): Promise<ITransaction[]> {
     return transactionService.buscarUltimasTransacoes(limit);
 }

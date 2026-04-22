@@ -1,4 +1,6 @@
-import { TRANSACTION_DIRECTION, type TransactionInput, type TransactionSearch } from '@/entities/transaction';
+import { TRANSACTION_DIRECTION } from '../model/constants';
+import type { ITransactionInput } from '../model/transaction.inputs.types';
+import type { ITransactionSearch } from '../model/transaction.search.types';
 import { ITransactionRepository } from '../repositories/transaction.repository.interface';
 
 const MESSAGES = {
@@ -10,7 +12,7 @@ const MESSAGES = {
 export class TransactionService {
     constructor(private readonly repository: ITransactionRepository) { }
 
-    async adicionar(input: TransactionInput) {
+    async adicionar(input: ITransactionInput) {
         this.validarValor(input.valor);
         return this.repository.adicionar(input);
     }
@@ -21,11 +23,11 @@ export class TransactionService {
         return transaction;
     }
 
-    async pesquisar(filters?: TransactionSearch) {
+    async pesquisar(filters?: ITransactionSearch) {
         return this.repository.pesquisar(filters);
     }
 
-    async atualizar(id: number, input: TransactionInput) {
+    async atualizar(id: number, input: ITransactionInput) {
         this.validarValor(input.valor);
         const updated = await this.repository.atualizar(id, input);
         if (!updated) throw new Error(MESSAGES.NOT_FOUND);

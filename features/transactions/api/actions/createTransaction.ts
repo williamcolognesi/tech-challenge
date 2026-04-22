@@ -1,10 +1,10 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { transactionService } from '@/lib/transaction.factory';
-import type { TransactionInput } from '@/entities/transaction';
+import { transactionService } from '@/lib/factories/transaction.factory';
+import type { ITransactionInput } from '../../model/transaction.inputs.types';
 
-export async function createTransaction(input: TransactionInput) {
+export async function createTransaction(input: ITransactionInput) {
     const transaction = await transactionService.adicionar(input);
     revalidatePath('/dashboard');
     revalidatePath('/transactions');

@@ -1,6 +1,7 @@
-import { transactionService } from '@/lib/transaction.factory';
-import type { Transaction, TransactionSearch } from '@/entities/transaction';
+import { transactionService } from '@/lib/factories/transaction.factory';
+import type { ITransactionSearch } from '../../model/transaction.search.types';
+import type { ITransaction } from '../../model/transaction.types';
 
-export async function getTransactions(filters?: TransactionSearch): Promise<Transaction[]> {
+export async function getTransactions(filters?: ITransactionSearch): Promise<ITransaction[]> {
     return transactionService.pesquisar(filters);
 }
