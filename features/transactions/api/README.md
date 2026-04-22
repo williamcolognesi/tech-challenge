@@ -102,18 +102,17 @@ await createTransaction({
 ### `updateTransaction(id, input)`
 
 Atualiza os dados de uma transação existente. Lança erro se não encontrada.
-Todos os campos do input são opcionais — apenas os informados serão atualizados.
 
 | Parâmetro | Tipo | Obrigatório |
 |---|---|---|
 | `id` | `number` | sim |
-| `input.valor` | `number` | não |
-| `input.tipo` | `TransactionType` | não |
-| `input.direcao` | `TransactionDirection` | não |
+| `input.valor` | `number` | sim |
+| `input.tipo` | `TransactionType` | sim |
+| `input.direcao` | `TransactionDirection` | sim |
 | `input.descricao` | `string` | não |
 
 ```ts
-await updateTransaction(1, { valor: 750, descricao: 'Pagamento atualizado' });
+await updateTransaction(1, { valor: 750, tipo: 3, direcao: 2, descricao: 'Pagamento da fatura' });
 ```
 
 ---
