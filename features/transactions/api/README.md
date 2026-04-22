@@ -14,6 +14,8 @@ Não utilizam `'use server'` pois são chamadas diretamente no servidor.
 
 Retorna a lista de transações com filtros opcionais.
 
+**Retorno:** `Promise<ITransaction[]>`
+
 | Parâmetro | Tipo | Obrigatório |
 |---|---|---|
 | `filters.tipo` | `TransactionType` | não |
@@ -30,6 +32,8 @@ const transactions = await getTransactions({ tipo: TRANSACTION_TYPE.PIX.codigo }
 
 Retorna uma transação pelo `id`. Lança erro se não encontrada.
 
+**Retorno:** `Promise<ITransaction>`
+
 | Parâmetro | Tipo | Obrigatório |
 |---|---|---|
 | `id` | `number` | sim |
@@ -43,6 +47,8 @@ const transaction = await getTransactionById(1);
 ### `getRecentTransactions(limit?)`
 
 Retorna as transações mais recentes ordenadas por `dataCadastro` descendente.
+
+**Retorno:** `Promise<ITransaction[]>`
 
 | Parâmetro | Tipo | Padrão |
 |---|---|---|
@@ -59,6 +65,8 @@ const recent = await getRecentTransactions(10);  // últimas 10
 
 Retorna o saldo atual calculado a partir de todas as transações.
 Soma entradas e subtrai saídas.
+
+**Retorno:** `Promise<number>`
 
 ```ts
 const balance = await getBalance(); // ex: 1250.00
@@ -80,6 +88,8 @@ Todas as actions revalidam:
 ### `createTransaction(input)`
 
 Cria uma nova transação. Valida se o valor é positivo antes de persistir.
+
+**Retorno:** `Promise<ITransaction>`
 
 | Parâmetro | Tipo | Obrigatório |
 |---|---|---|
@@ -103,6 +113,8 @@ await createTransaction({
 
 Atualiza os dados de uma transação existente. Lança erro se não encontrada.
 
+**Retorno:** `Promise<ITransaction>`
+
 | Parâmetro | Tipo | Obrigatório |
 |---|---|---|
 | `id` | `number` | sim |
@@ -120,6 +132,8 @@ await updateTransaction(1, { valor: 750, tipo: 3, direcao: 2, descricao: 'Pagame
 ### `deleteTransaction(id)`
 
 Remove uma transação pelo `id`. Lança erro se não encontrada.
+
+**Retorno:** `Promise<void>`
 
 | Parâmetro | Tipo | Obrigatório |
 |---|---|---|
