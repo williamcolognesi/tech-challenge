@@ -1,6 +1,6 @@
 import type { ITransactionInput } from '../model/transaction.inputs.types';
 import type { ITransactionSearch } from '../model/transaction.search.types';
-import { ITransaction } from '../model/transaction.types';
+import { ITransaction, TransactionDirection } from '../model/transaction.types';
 import { ITransactionRepository } from '../repositories/transaction.repository.interface';
 import { calcularSaldo } from '../utils/calculateBalance';
 
@@ -45,11 +45,15 @@ export class TransactionService {
         if (!deleted) throw new Error(MESSAGES.NOT_FOUND);
     }
 
-    async buscarSaldo(dataInicio?: Date, dataFim?: Date): Promise<number> {
+    async buscarSaldo(dataInicio?: Date, dataFim?: Date, direcao?: TransactionDirection): Promise<number> {
         if (dataInicio && dataFim && dataInicio > dataFim)
             throw new Error(MESSAGES.DATA_INVALIDA);
 
-        const all = await this.repository.pesquisar({ dataInicio, dataFim });
+        const all = await this.repository.pesquisar({ 
+            dataInicio: dataInicio, 
+            dataFim: dataFim, 
+            direcao: direcao 
+        });
 
         return calcularSaldo(all);
     }

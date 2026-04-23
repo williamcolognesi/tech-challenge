@@ -84,7 +84,7 @@ const recent = await getRecentTransactions(10);  // últimas 10
 
 ---
 
-### `getBalance(dataInicio?, dataFim?)`
+### `getBalance(dataInicio?, dataFim?, direcao?)`
 
 Retorna o saldo calculado a partir das transações.
 Soma entradas e subtrai saídas do período informado.
@@ -98,6 +98,7 @@ Se nenhum filtro for informado, calcula o saldo de todas as transações.
 |---|---|---|
 | `dataInicio` | `Date` | não |
 | `dataFim` | `Date` | não |
+| `direcao` | `TransactionDirection` | não |
 
 ```ts
 // saldo total
@@ -109,10 +110,25 @@ const saldo = await getBalance(
   new Date('2024-03-31'),
 );
 
-// saldo do ano de 2024
-const saldo = await getBalance(
-  new Date('2024-01-01'),
-  new Date('2024-12-31'),
+// total de entradas de março de 2024
+const entradas = await getBalance(
+  new Date('2024-03-01'),
+  new Date('2024-03-31'),
+  TRANSACTION_DIRECTION.ENTRADA.codigo,
+);
+
+// total de saídas de março de 2024
+const saidas = await getBalance(
+  new Date('2024-03-01'),
+  new Date('2024-03-31'),
+  TRANSACTION_DIRECTION.SAIDA.codigo,
+);
+
+// total de entradas sem filtro de data
+const entradas = await getBalance(
+  undefined,
+  undefined,
+  TRANSACTION_DIRECTION.ENTRADA.codigo,
 );
 ```
 
