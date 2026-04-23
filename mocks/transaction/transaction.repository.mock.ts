@@ -43,6 +43,11 @@ export class MockTransactionRepository implements ITransactionRepository {
             results = results.filter(t =>
                 t.descricao?.toLowerCase().includes(filters.descricao!.toLowerCase())
             );
+        if (filters?.dataInicio)
+            results = results.filter(t => t.dataCadastro >= filters.dataInicio!);
+
+        if (filters?.dataFim)
+            results = results.filter(t => t.dataCadastro <= filters.dataFim!);
 
         return results.sort((a, b) => b.dataCadastro.getTime() - a.dataCadastro.getTime());
     }

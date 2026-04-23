@@ -7,7 +7,8 @@ import { ITransactionRepository } from '../repositories/transaction.repository.i
 const MESSAGES = {
     NOT_FOUND: 'Transação não encontrada',
     INVALID_AMOUNT: 'O valor deve ser um número positivo',
-    INVALID_RECENT_LIMIT: 'O limite deve ser um número positivo'
+    INVALID_RECENT_LIMIT: 'O limite deve ser um número positivo',
+    DATA_INVALIDA: 'Data de início não pode ser maior que a data fim',
 } as const;
 
 export class TransactionService {
@@ -25,6 +26,10 @@ export class TransactionService {
     }
 
     async pesquisar(filters?: ITransactionSearch): Promise<ITransaction[]> {
+        if (filters?.dataInicio && filters?.dataFim) {
+            if (filters.dataInicio > filters.dataFim)
+                throw new Error(MESSAGES.DATA_INVALIDA);
+        }
         return this.repository.pesquisar(filters);
     }
 

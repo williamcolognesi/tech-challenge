@@ -21,9 +21,30 @@ Retorna a lista de transações com filtros opcionais.
 | `filters.tipo` | `TransactionType` | não |
 | `filters.direcao` | `TransactionDirection` | não |
 | `filters.descricao` | `string` | não |
+| `filters.dataInicio` | `Date` | não |
+| `filters.dataFim` | `Date` | não |
+
+> `dataInicio` não pode ser maior que `dataFim`.
 
 ```ts
+// buscar todas as transações
+const transactions = await getTransactions();
+
+// buscar por tipo
 const transactions = await getTransactions({ tipo: TRANSACTION_TYPE.PIX.codigo });
+
+// buscar por período
+const transactions = await getTransactions({
+  dataInicio: new Date('2024-03-01'),
+  dataFim: new Date('2024-03-31'),
+});
+
+// buscar entradas de março de 2024
+const transactions = await getTransactions({
+  direcao: TRANSACTION_DIRECTION.ENTRADA.codigo,
+  dataInicio: new Date('2024-03-01'),
+  dataFim: new Date('2024-03-31'),
+});
 ```
 
 ---
@@ -33,6 +54,8 @@ const transactions = await getTransactions({ tipo: TRANSACTION_TYPE.PIX.codigo }
 Retorna uma transação pelo `id`. Lança erro se não encontrada.
 
 **Retorno:** `Promise<ITransaction>`
+
+> Lança erro se a transação não for encontrada.
 
 | Parâmetro | Tipo | Obrigatório |
 |---|---|---|
@@ -115,6 +138,8 @@ Atualiza os dados de uma transação existente. Lança erro se não encontrada.
 
 **Retorno:** `Promise<ITransaction>`
 
+> Lança erro se a transação não for encontrada.
+
 | Parâmetro | Tipo | Obrigatório |
 |---|---|---|
 | `id` | `number` | sim |
@@ -134,6 +159,8 @@ await updateTransaction(1, { valor: 750, tipo: 3, direcao: 2, descricao: 'Pagame
 Remove uma transação pelo `id`. Lança erro se não encontrada.
 
 **Retorno:** `Promise<void>`
+
+> Lança erro se a transação não for encontrada.
 
 | Parâmetro | Tipo | Obrigatório |
 |---|---|---|

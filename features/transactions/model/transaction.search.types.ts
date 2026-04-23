@@ -4,4 +4,6 @@ export interface ITransactionSearch {
   tipo?: TransactionType;
   direcao?: TransactionDirection;
   descricao?: string;
+  dataInicio?: Date;
+  dataFim?: Date;
 }
