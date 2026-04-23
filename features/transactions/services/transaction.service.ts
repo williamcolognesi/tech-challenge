@@ -1,8 +1,8 @@
-import { TRANSACTION_DIRECTION } from '../model/constants';
 import type { ITransactionInput } from '../model/transaction.inputs.types';
 import type { ITransactionSearch } from '../model/transaction.search.types';
 import { ITransaction } from '../model/transaction.types';
 import { ITransactionRepository } from '../repositories/transaction.repository.interface';
+import { calcularSaldo } from '../utils/calculateBalance';
 
 const MESSAGES = {
     NOT_FOUND: 'Transação não encontrada',
@@ -45,14 +45,13 @@ export class TransactionService {
         if (!deleted) throw new Error(MESSAGES.NOT_FOUND);
     }
 
-    async buscarSaldo(): Promise<number> {
-        const all = await this.repository.pesquisar();
+    async buscarSaldo(dataInicio?: Date, dataFim?: Date): Promise<number> {
+        if (dataInicio && dataFim && dataInicio > dataFim)
+            throw new Error(MESSAGES.DATA_INVALIDA);
 
-        return all.reduce((acc, t) => {
-            return t.direcao === TRANSACTION_DIRECTION.ENTRADA.codigo
-                ? acc + t.valor
-                : acc - t.valor;
-        }, 0);
+        const all = await this.repository.pesquisar({ dataInicio, dataFim });
+
+        return calcularSaldo(all);
     }
 
     async buscarUltimasTransacoes(limit: number): Promise<ITransaction[]> {

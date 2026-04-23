@@ -84,15 +84,36 @@ const recent = await getRecentTransactions(10);  // últimas 10
 
 ---
 
-### `getBalance()`
+### `getBalance(dataInicio?, dataFim?)`
 
-Retorna o saldo atual calculado a partir de todas as transações.
-Soma entradas e subtrai saídas.
+Retorna o saldo calculado a partir das transações.
+Soma entradas e subtrai saídas do período informado.
+Se nenhum filtro for informado, calcula o saldo de todas as transações.
 
 **Retorno:** `Promise<number>`
 
+> `dataInicio` não pode ser maior que `dataFim`.
+
+| Parâmetro | Tipo | Obrigatório |
+|---|---|---|
+| `dataInicio` | `Date` | não |
+| `dataFim` | `Date` | não |
+
 ```ts
-const balance = await getBalance(); // ex: 1250.00
+// saldo total
+const saldo = await getBalance();
+
+// saldo de março de 2024
+const saldo = await getBalance(
+  new Date('2024-03-01'),
+  new Date('2024-03-31'),
+);
+
+// saldo do ano de 2024
+const saldo = await getBalance(
+  new Date('2024-01-01'),
+  new Date('2024-12-31'),
+);
 ```
 
 ---
