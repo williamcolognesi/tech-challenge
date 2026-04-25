@@ -1,0 +1,168 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 32px;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.top_bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.summary {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.balance {
+    font-size: 20px;
+    font-weight: 700;
+
+    &.negative {
+        color: #dc2626;
+    }
+
+    &.positive {
+        color: #16a34a;
+    }
+}
+
+.summary_line {
+    font-size: 13px;
+    color: #555;
+
+    span {
+        font-weight: 600;
+    }
+
+    &.income span {
+        color: #16a34a;
+    }
+
+    &.expense span {
+        color: #dc2626;
+    }
+}
+
+.list_wrapper {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.day_group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.day_label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111;
+    border-left: 3px solid #d1d5db;
+    padding-left: 12px;
+}
+
+.transaction_row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    gap: 16px;
+}
+
+.transaction_info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.transaction_type_row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.transaction_text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    strong {
+        font-size: 14px;
+        font-weight: 600;
+        color: #111;
+    }
+
+    span {
+        font-size: 12px;
+        color: #6b7280;
+    }
+}
+
+.badge_entrada,
+.badge_saida {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.badge_entrada {
+    color: #16a34a !important;
+    background-color: #dcfce7;
+}
+
+.badge_saida {
+    color: #dc2626 !important;
+    background-color: #fee2e2;
+}
+
+.transaction_value {
+    font-size: 16px;
+    font-weight: 700;
+    color: #111;
+    white-space: nowrap;
+}
+
+.transaction_actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+}
+
+.transaction_buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form_group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form_label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111;
+}
