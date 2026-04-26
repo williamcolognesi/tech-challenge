@@ -2,12 +2,12 @@ import type { ITransactionRepository } from './transaction.repository.interface'
 import type { ITransaction, TransactionDirection, TransactionType } from '../model/transaction.types';
 import type { ITransactionInput } from '../model/transaction.inputs.types';
 import type { ITransactionSearch } from '../model/transaction.search.types';
+import type { Transaction } from '@/lib/generated/prisma/client';
 import { prisma } from '@/lib/prisma/client';
-
 
 export class PrismaTransactionRepository implements ITransactionRepository {
 
-    private mapear(data: any): ITransaction {
+    private mapear(data: Transaction): ITransaction {
         return {
             id: data.id,
             valor: data.valor,
@@ -35,6 +35,7 @@ export class PrismaTransactionRepository implements ITransactionRepository {
         const data = await prisma.transaction.findUnique({
             where: { id },
         });
+        if (!data) return null;
         return this.mapear(data);
     }
 

@@ -4,6 +4,23 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 First, run the development server:
 
+```init
+# 1. clona o repositório
+git clone ...
+
+# 2. copia o .env.example
+cp .env.example .env
+
+# 3. instala as dependências
+npm install
+
+# 4. gera o client do Prisma
+npx prisma generate
+
+# 5. cria o banco e roda as migrations
+npx prisma migrate dev
+```
+
 ```bash
 npm run dev
 # or
