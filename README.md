@@ -2,9 +2,9 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+First, install the dependencies:
 
-```init
+```text
 # 1. clona o repositório
 git clone ...
 
@@ -20,6 +20,8 @@ npx prisma generate
 # 5. cria o banco e roda as migrations
 npx prisma migrate dev
 ```
+
+Run the development server:
 
 ```bash
 npm run dev
