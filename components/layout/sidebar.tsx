@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Wallet, LayoutDashboard, LogOut, Menu } from 'lucide-react';
+import { Wallet, LayoutDashboard, ArrowLeftRight, LogOut, Menu } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -19,6 +19,11 @@ const navItems = [
     title: 'Dashboard',
     href: '/dashboard',
     icon: LayoutDashboard,
+  },
+  {
+    title: 'Transações',
+    href: '/transactions',
+    icon: ArrowLeftRight,
   },
 ];
 
@@ -76,13 +81,15 @@ export function Sidebar() {
 
       {/* Logout Button */}
       <div className="space-y-1">
-        <Button
-          variant="ghost"
-          className="w-full justify-start gap-3 text-gray-600 hover:text-red-600 hover:bg-red-50 transition-colors"
-        >
-          <LogOut className="w-5 h-5 flex-shrink-0" />
-          <span className="text-sm">Sair</span>
-        </Button>
+        <Link href="/" onClick={() => setOpen(false)}>
+          <Button
+            variant="ghost"
+            className="w-full justify-start gap-3 text-gray-600 hover:text-red-600 hover:bg-red-50 transition-colors"
+          >
+            <LogOut className="w-5 h-5 flex-shrink-0" />
+            <span className="text-sm">Sair</span>
+          </Button>
+        </Link>
       </div>
     </>
   );

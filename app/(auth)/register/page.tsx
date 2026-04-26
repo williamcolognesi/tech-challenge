@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { LogIn, Wallet } from "lucide-react";
 
@@ -11,6 +12,13 @@ import { VirtualCard } from "@/components/virtual-card";
 import styles from "./page.module.scss";
 
 export default function RegisterPage() {
+  const router = useRouter();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    router.push("/login");
+  };
+
   return (
     <div id={styles.register_page}>
       <div className={styles.left_container}>
@@ -33,7 +41,7 @@ export default function RegisterPage() {
 
         <form
           className={styles.form_wrapper}
-          onSubmit={(e) => e.preventDefault()}
+          onSubmit={handleSubmit}
         >
           <h1 className={styles.form_title}>Criar conta</h1>
 

@@ -43,7 +43,7 @@ export default function Home() {
         </div>
         <div className="inline-flex justify-start items-center gap-6 overflow-hidden">
           <Button variant="default" size="lg">
-            <Link href="/login">Cadastrar gratis</Link>
+            <Link href="/register">Cadastrar gratis</Link>
             <ArrowUpRight />
           </Button>
 
@@ -105,7 +105,7 @@ export default function Home() {
         </div>
 
         <Button variant="default" size="lg">
-          <Link href="/login">Quero organizar minhas finanças</Link>
+          <Link href="/register">Quero organizar minhas finanças</Link>
           <ArrowUpRight />
         </Button>
         <div className="w-4 h-4 relative overflow-hidden">
