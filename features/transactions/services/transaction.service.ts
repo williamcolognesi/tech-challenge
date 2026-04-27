@@ -45,17 +45,12 @@ export class TransactionService {
         if (!deleted) throw new Error(MESSAGES.NOT_FOUND);
     }
 
-    async buscarSaldo(dataInicio?: Date, dataFim?: Date, direcao?: TransactionDirection): Promise<number> {
-        if (dataInicio && dataFim && dataInicio > dataFim)
+    async buscarSaldo(filters?: ITransactionSearch): Promise<number> {
+        if (filters?.dataInicio && filters?.dataFim && filters.dataInicio > filters.dataFim)
             throw new Error(MESSAGES.DATA_INVALIDA);
 
-        const all = await this.repository.pesquisar({ 
-            dataInicio: dataInicio, 
-            dataFim: dataFim, 
-            direcao: direcao 
-        });
-
-        return calcularSaldo(all);
+        const transactions = await this.repository.pesquisar(filters);
+        return calcularSaldo(transactions);
     }
 
     async buscarUltimasTransacoes(limit: number): Promise<ITransaction[]> {

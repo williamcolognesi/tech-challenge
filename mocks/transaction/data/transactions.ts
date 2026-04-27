@@ -1,4 +1,4 @@
-import { TRANSACTION_DIRECTION, TRANSACTION_TYPE } from "@/features/transactions/model/constants";
+import { TRANSACTION_CATEGORY, TRANSACTION_DIRECTION, TRANSACTION_TYPE } from "@/features/transactions/model/constants";
 import type { ITransaction } from "@/features/transactions/model/transaction.types";
 
 function daysAgo(days: number): Date {
@@ -13,6 +13,7 @@ export const MOCK_TRANSACTIONS: ITransaction[] = [
     valor: 1500.00,
     tipo: TRANSACTION_TYPE.DEPOSITO.codigo,
     direcao: TRANSACTION_DIRECTION.ENTRADA.codigo,
+    categoria: TRANSACTION_CATEGORY.RECEITAS_FIXAS.codigo,
     descricao: 'Salário mensal',
     dataCadastro: daysAgo(2),
     dataAtualizacao: daysAgo(2),
@@ -23,6 +24,7 @@ export const MOCK_TRANSACTIONS: ITransaction[] = [
     tipo: TRANSACTION_TYPE.PIX.codigo,
     direcao: TRANSACTION_DIRECTION.SAIDA.codigo,
     descricao: 'Pagamento aluguel',
+    categoria: TRANSACTION_CATEGORY.CASA.codigo,
     dataCadastro: daysAgo(5),
     dataAtualizacao: daysAgo(5),
   },
@@ -31,6 +33,7 @@ export const MOCK_TRANSACTIONS: ITransaction[] = [
     valor: 800.00,
     tipo: TRANSACTION_TYPE.TRANSFERENCIA.codigo,
     direcao: TRANSACTION_DIRECTION.ENTRADA.codigo,
+    categoria: TRANSACTION_CATEGORY.EDUCACAO.codigo,
     descricao: 'Transferência poupança',
     dataCadastro: daysAgo(10),
     dataAtualizacao: daysAgo(10),
