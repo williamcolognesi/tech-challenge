@@ -33,7 +33,6 @@ interface Props {
 
 export function AddTransactionDialog({ onCreated }: Props) {
   const [open, setOpen] = useState(false);
-  const [nome, setNome] = useState("");
   const [valor, setValor] = useState("");
   const [descricao, setDescricao] = useState("");
   const [tipo, setTipo] = useState(String(TRANSACTION_TYPE.PIX.codigo));
@@ -58,10 +57,9 @@ export function AddTransactionDialog({ onCreated }: Props) {
         categoria === "__none__"
           ? undefined
           : (Number(categoria) as TransactionCategory),
-      descricao: descricao || nome || undefined,
+      descricao: descricao || undefined,
     });
 
-    setNome("");
     setValor("");
     setDescricao("");
     setTipo(String(TRANSACTION_TYPE.PIX.codigo));
@@ -84,19 +82,6 @@ export function AddTransactionDialog({ onCreated }: Props) {
           <DialogTitle>Adicionar transação</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor="add-nome" className="text-sm font-semibold text-neutral-900">
-              Nome*
-            </Label>
-            <Input
-              id="add-nome"
-              placeholder="Pix mãe"
-              value={nome}
-              onChange={(e) => setNome(e.target.value)}
-              required
-            />
-          </div>
-
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="add-valor" className="text-sm font-semibold text-neutral-900">
               Valor*
