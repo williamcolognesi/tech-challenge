@@ -1,6 +1,6 @@
 import { transactionService } from '@/lib/factories/transaction.factory';
-import { TransactionDirection } from '../../model/transaction.types';
+import { ITransactionSearch } from '../../model/transaction.search.types';
 
-export async function getBalance(dataInicio?: Date, dataFim?: Date, direcao?: TransactionDirection): Promise<number> {
-    return transactionService.buscarSaldo(dataInicio, dataFim, direcao);
+export async function getBalance(filters?: ITransactionSearch): Promise<number> {
+    return transactionService.buscarSaldo(filters);
 }

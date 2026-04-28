@@ -10,18 +10,15 @@ export class MockTransactionRepository implements ITransactionRepository {
 
     constructor(seed: ITransaction[] = MOCK_TRANSACTIONS) {
         this.store = new Map(seed.map(t => [t.id, t]));
-        this.nextId = seed.length ? Math.max(...seed.map(t => t.id)) + 1 : 1;
+        this.nextId = this.calcularProximoId(MOCK_TRANSACTIONS);
     }
 
     async adicionar(input: ITransactionInput): Promise<ITransaction> {
         const id: number = this.nextId++;
 
         const transaction: ITransaction = {
+            ...input,
             id: id,
-            valor: input.valor,
-            tipo: input.tipo,
-            direcao: input.direcao,
-            descricao: input.descricao,
             dataCadastro: new Date()
         };
         this.store.set(transaction.id, transaction);
@@ -39,6 +36,8 @@ export class MockTransactionRepository implements ITransactionRepository {
             results = results.filter(t => t.tipo === filters.tipo);
         if (filters?.direcao)
             results = results.filter(t => t.direcao === filters.direcao);
+        if (filters?.categoria)
+            results = results.filter(t => t.categoria === filters.categoria);
         if (filters?.descricao)
             results = results.filter(t =>
                 t.descricao?.toLowerCase().includes(filters.descricao!.toLowerCase())
@@ -72,7 +71,12 @@ export class MockTransactionRepository implements ITransactionRepository {
             .slice(0, limit);
     }
 
+    private calcularProximoId(seed: ITransaction[]): number {
+        return seed.length ? Math.max(...seed.map(t => t.id)) + 1 : 1;
+    }
+
     reset(): void {
         this.store = new Map(MOCK_TRANSACTIONS.map(t => [t.id, t]));
+        this.nextId = this.calcularProximoId(MOCK_TRANSACTIONS);
     }
 }

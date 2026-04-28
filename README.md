@@ -42,7 +42,7 @@ src/
 │   │   │   └── page.tsx      # Rota: /login
 │   │   └── layout.tsx        # Layout simples (ex: tela cheia, sem sidebar)
 │   │
-│   ├── (private)/          # GRUPO PRIVADO: A Aplicação Principal
+│   ├── (private)/            # GRUPO PRIVADO: A Aplicação Principal
 │   │   ├── page.tsx          # Rota: / (Home Page - Saldo da conta e Extrato)
 │   │   ├── transactions/
 │   │   │   └── page.tsx      # Rota: /transactions (Listagem de transações)
@@ -65,12 +65,17 @@ src/
 │                             # REGRA DE OURO: Uma feature não importa arquivos de outra feature.
 │   │
 │   ├── transactions/         # DOMÍNIO: Transações Financeiras
-│   │   ├── api/              # Funções isoladas de chamadas de rede/mock (ex: getTransactions)
+│   │   ├── api/              # Funções isoladas de entrada e saída de dados
+│   │   │   ├── queries/      # Leitura de dados para Server Components (ex: getTransactions, getBalance)
+│   │   │   └── actions/      # Mutações via Server Actions (ex: createTransaction, deleteTransaction)
 │   │   ├── components/       # Componentes atrelados à regra de negócio (ex: TransactionForm, TransactionList)
 │   │   ├── hooks/            # Hooks de controle de estado (ex: useCreateTransaction)
-│   │   ├── repositories/     # Contrato e implementações de acesso a dados (ex: ITransactionRepository)
+│   │   ├── repositories/     # Contrato e implementações de acesso a dados
+│   │   │                     # A interface define O QUE o sistema precisa. (ex: ITransactionRepository)
 │   │   ├── services/         # Regras de negócio puras e orquestração (ex: TransactionService)
-│   │   ├── types/            # Interfaces e DTOs de transação (ex: ITransaction)
+│   │   │                     # Não sabe de onde os dados vieram nem para onde vão.
+│   │   │                     # Pode ser chamado por actions, scripts ou testes sem nenhuma adaptação.
+│   │   ├── model/            # Tipos, constantes e interfaces do domínio (ex: ITransaction)
 │   │   └── utils/            # Regras específicas do domínio (ex: calculateBalance)
 │   │
 │   └── auth/                 # DOMÍNIO: Autenticação
@@ -79,7 +84,18 @@ src/
 │
 ├── lib/                      # FERRAMENTAS E INTEGRAÇÕES
 │                             # Configurações de terceiros e utilitários que não são regra de negócio.
+│   │
+│   ├── factories/            # Instâncias singleton dos serviços da aplicação
+│   │   └── transaction.factory.ts  # Define qual repositório usar
 │   └── utils.ts              # Utilitários genéricos (ex: formatação de moeda, datas, merge de classes)
+│
+├── mocks/                    # SIMULAÇÃO DE DADOS
+│                             # Simula a camada de persistência durante o desenvolvimento.
+│                             # Substituível pelo banco real sem alterar features ou services.
+│   └── transaction/
+│       ├── data/
+│       │   └── transactions.ts             # Dados iniciais (seed) de transações
+│       └── transaction.repository.mock.ts  # Implementação em memória do ITransactionRepository
 │
 └── proxy.ts                  # O GUARDIÃO DA BORDA (Segurança)
                               # Intercepta as rotas do (dashboard) e verifica os cookies.

@@ -20,6 +20,7 @@ Retorna a lista de transações com filtros opcionais.
 |---|---|---|
 | `filters.tipo` | `TransactionType` | não |
 | `filters.direcao` | `TransactionDirection` | não |
+| `filters.categoria` | `TransactionCategory` | não |
 | `filters.descricao` | `string` | não |
 | `filters.dataInicio` | `Date` | não |
 | `filters.dataFim` | `Date` | não |
@@ -32,6 +33,9 @@ const transactions = await getTransactions();
 
 // buscar por tipo
 const transactions = await getTransactions({ tipo: TRANSACTION_TYPE.PIX.codigo });
+
+// buscar por categoria
+const transactions = await getTransactions({ categoria: TRANSACTION_CATEGORY.ALIMENTACAO.codigo });
 
 // buscar por período
 const transactions = await getTransactions({
@@ -84,7 +88,7 @@ const recent = await getRecentTransactions(10);  // últimas 10
 
 ---
 
-### `getBalance(dataInicio?, dataFim?, direcao?)`
+### `getBalance(filters?)`
 
 Retorna o saldo calculado a partir das transações.
 Soma entradas e subtrai saídas do período informado.
@@ -96,40 +100,33 @@ Se nenhum filtro for informado, calcula o saldo de todas as transações.
 
 | Parâmetro | Tipo | Obrigatório |
 |---|---|---|
-| `dataInicio` | `Date` | não |
-| `dataFim` | `Date` | não |
-| `direcao` | `TransactionDirection` | não |
+| `filters.tipo` | `TransactionType` | não |
+| `filters.direcao` | `TransactionDirection` | não |
+| `filters.categoria` | `TransactionCategory` | não |
+| `filters.descricao` | `string` | não |
+| `filters.dataInicio` | `Date` | não |
+| `filters.dataFim` | `Date` | não |
 
 ```ts
 // saldo total
 const saldo = await getBalance();
 
-// saldo de março de 2024
-const saldo = await getBalance(
-  new Date('2024-03-01'),
-  new Date('2024-03-31'),
-);
+// saldo de alimentação
+const saldo = await getBalance({ categoria: TRANSACTION_CATEGORY.ALIMENTACAO.codigo });
 
-// total de entradas de março de 2024
-const entradas = await getBalance(
-  new Date('2024-03-01'),
-  new Date('2024-03-31'),
-  TRANSACTION_DIRECTION.ENTRADA.codigo,
-);
+// saldo de entradas de março
+const saldo = await getBalance({
+  direcao: TRANSACTION_DIRECTION.ENTRADA.codigo,
+  dataInicio: new Date('2024-03-01'),
+  dataFim: new Date('2024-03-31'),
+});
 
-// total de saídas de março de 2024
-const saidas = await getBalance(
-  new Date('2024-03-01'),
-  new Date('2024-03-31'),
-  TRANSACTION_DIRECTION.SAIDA.codigo,
-);
-
-// total de entradas sem filtro de data
-const entradas = await getBalance(
-  undefined,
-  undefined,
-  TRANSACTION_DIRECTION.ENTRADA.codigo,
-);
+// saldo de PIX do mês
+const saldo = await getBalance({
+  tipo: TRANSACTION_TYPE.PIX.codigo,
+  dataInicio: new Date('2024-03-01'),
+  dataFim: new Date('2024-03-31'),
+});
 ```
 
 ---
@@ -155,6 +152,7 @@ Cria uma nova transação. Valida se o valor é positivo antes de persistir.
 |---|---|---|
 | `input.valor` | `number` | sim |
 | `input.tipo` | `TransactionType` | sim |
+| `input.categoria` | `TransactionCategory` | não |
 | `input.direcao` | `TransactionDirection` | sim |
 | `input.descricao` | `string` | não |
 
@@ -163,7 +161,8 @@ await createTransaction({
   valor: 500,
   tipo: TRANSACTION_TYPE.PIX.codigo,
   direcao: TRANSACTION_DIRECTION.SAIDA.codigo,
-  descricao: 'Pagamento fornecedor',
+  categoria: TRANSACTION_CATEGORY.ALIMENTACAO.codigo,
+  descricao: 'Supermercado',
 });
 ```
 
@@ -183,6 +182,7 @@ Atualiza os dados de uma transação existente. Lança erro se não encontrada.
 | `input.valor` | `number` | sim |
 | `input.tipo` | `TransactionType` | sim |
 | `input.direcao` | `TransactionDirection` | sim |
+| `input.categoria` | `TransactionCategory` | não |
 | `input.descricao` | `string` | não |
 
 ```ts
