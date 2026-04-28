@@ -121,6 +121,25 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+@keyframes virtual-card-bg {
+  60% {
+    background-size: 400px 267px;
+    background-position: 60% 60%;
+  }
+}
+
+@keyframes virtual-card-shine {
+  0% {
+    background-position: 0% 10%;
+  }
+  50% {
+    background-position: 100% 91%;
+  }
+  100% {
+    background-position: 0% 10%;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

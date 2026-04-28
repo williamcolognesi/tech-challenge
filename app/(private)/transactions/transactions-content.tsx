@@ -40,9 +40,10 @@ import {
 import { toast } from "sonner";
 import { deleteTransaction } from "@/features/transactions/api/actions/deleteTransaction";
 
+import { cn } from "@/lib/utils";
+
 import { AddTransactionDialog } from "./add-transaction-dialog";
 import { EditTransactionDialog } from "./edit-transaction-dialog";
-import styles from "./page.module.scss";
 
 interface Props {
   transactions: ITransaction[];
@@ -134,9 +135,9 @@ export function TransactionsContent({ transactions, balance, income, expense }: 
   }
 
   return (
-    <div className={styles.page}>
-      <div className={styles.top_bar}>
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+    <div className="flex min-h-screen w-full flex-col gap-6 p-8">
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div className="flex items-center gap-3">
           <AddTransactionDialog onCreated={handleMutationDone} />
 
           <Select value={month} onValueChange={setMonth}>
@@ -153,47 +154,60 @@ export function TransactionsContent({ transactions, balance, income, expense }: 
           </Select>
         </div>
 
-        <div className={styles.summary}>
-          <div className={`${styles.balance} ${balance < 0 ? styles.negative : styles.positive}`}>
+        <div className="flex flex-col gap-1 text-right">
+          <div
+            className={cn(
+              "text-xl font-bold",
+              balance < 0 ? "text-red-600" : "text-green-600",
+            )}
+          >
             Balanço: {formatCurrency(balance)}
           </div>
-          <div className={`${styles.summary_line} ${styles.income}`}>
-            Entradas: <span>{formatCurrency(income)}</span>
+          <div className="text-[13px] text-[#555]">
+            Entradas:{" "}
+            <span className="font-semibold text-green-600">{formatCurrency(income)}</span>
           </div>
-          <div className={`${styles.summary_line} ${styles.expense}`}>
-            Saídas: <span>{formatCurrency(absExpense)}</span>
+          <div className="text-[13px] text-[#555]">
+            Saídas:{" "}
+            <span className="font-semibold text-red-600">{formatCurrency(absExpense)}</span>
           </div>
         </div>
       </div>
 
-      <div className={styles.list_wrapper}>
+      <div className="flex flex-col gap-6 rounded-xl border border-gray-200 bg-white p-6">
         {Object.keys(groups).length === 0 && (
-          <p style={{ textAlign: "center", color: "#6b7280", padding: 24 }}>
-            Nenhuma transação neste período.
-          </p>
+          <p className="p-6 text-center text-gray-500">Nenhuma transação neste período.</p>
         )}
 
         {Object.entries(groups).map(([day, items]) => (
-          <div key={day} className={styles.day_group}>
-            <div className={styles.day_label}>{day}</div>
+          <div key={day} className="flex flex-col gap-3">
+            <div className="border-l-[3px] border-gray-300 pl-3 text-sm font-semibold text-neutral-900">
+              {day}
+            </div>
 
             {items.map((t) => (
-              <div key={t.id} className={styles.transaction_row}>
-                <div className={styles.transaction_info}>
+              <div
+                key={t.id}
+                className="flex items-center justify-between gap-4 px-3 py-2"
+              >
+                <div className="flex items-center gap-3">
                   <Avatar>
                     <AvatarFallback>
                       {getTypeIcon(t.tipo)}
                     </AvatarFallback>
                   </Avatar>
-                  <div className={styles.transaction_text}>
-                    <div className={styles.transaction_type_row}>
-                      <strong>{getTypeName(t.tipo)}</strong>
+                  <div className="flex flex-col gap-0.5">
+                    <div className="flex items-center gap-2">
+                      <strong className="text-sm font-semibold text-neutral-900">
+                        {getTypeName(t.tipo)}
+                      </strong>
                       <span
-                        className={
+                        className={cn(
+                          "inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-semibold",
                           t.direcao === TRANSACTION_DIRECTION.ENTRADA.codigo
-                            ? styles.badge_entrada
-                            : styles.badge_saida
-                        }
+                            ? "!bg-green-100 !text-green-600"
+                            : "!bg-red-100 !text-red-600",
+                        )}
                       >
                         {t.direcao === TRANSACTION_DIRECTION.ENTRADA.codigo ? (
                           <><TrendingUp size={12} /> Entrada</>
@@ -202,15 +216,17 @@ export function TransactionsContent({ transactions, balance, income, expense }: 
                         )}
                       </span>
                     </div>
-                    <span>{t.descricao ?? "Sem descrição"}</span>
+                    <span className="text-xs text-gray-500">
+                      {t.descricao ?? "Sem descrição"}
+                    </span>
                   </div>
                 </div>
 
-                <div className={styles.transaction_actions}>
-                  <span className={styles.transaction_value}>
+                <div className="flex flex-col items-end gap-1.5">
+                  <span className="text-nowrap text-base font-bold text-neutral-900">
                     {formatCurrency(t.valor)}
                   </span>
-                  <div className={styles.transaction_buttons}>
+                  <div className="flex items-center gap-2">
                   <Button
                     variant="outline"
                     size="sm"

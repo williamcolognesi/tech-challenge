@@ -25,7 +25,6 @@ import { createTransaction } from "@/features/transactions/api/actions/createTra
 
 import { toast } from "sonner";
 import { formatCurrencyInput, parseCurrencyInput } from "./currency-utils";
-import styles from "./page.module.scss";
 
 interface Props {
   onCreated: () => void;
@@ -76,8 +75,8 @@ export function AddTransactionDialog({ onCreated }: Props) {
           <DialogTitle>Adicionar transação</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div className={styles.form_group}>
-            <Label htmlFor="add-nome" className={styles.form_label}>
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="add-nome" className="text-sm font-semibold text-neutral-900">
               Nome*
             </Label>
             <Input
@@ -89,8 +88,8 @@ export function AddTransactionDialog({ onCreated }: Props) {
             />
           </div>
 
-          <div className={styles.form_group}>
-            <Label htmlFor="add-valor" className={styles.form_label}>
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="add-valor" className="text-sm font-semibold text-neutral-900">
               Valor*
             </Label>
             <Input
@@ -103,8 +102,8 @@ export function AddTransactionDialog({ onCreated }: Props) {
             />
           </div>
 
-          <div className={styles.form_group}>
-            <Label htmlFor="add-descricao" className={styles.form_label}>
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="add-descricao" className="text-sm font-semibold text-neutral-900">
               Descrição
             </Label>
             <Input
@@ -115,8 +114,8 @@ export function AddTransactionDialog({ onCreated }: Props) {
             />
           </div>
 
-          <div className={styles.form_group}>
-            <Label className={styles.form_label}>Tipo</Label>
+          <div className="flex flex-col gap-1.5">
+            <Label className="text-sm font-semibold text-neutral-900">Tipo</Label>
             <Select value={tipo} onValueChange={setTipo}>
               <SelectTrigger className="w-full">
                 <SelectValue />
@@ -131,8 +130,8 @@ export function AddTransactionDialog({ onCreated }: Props) {
             </Select>
           </div>
 
-          <div className={styles.form_group}>
-            <Label className={styles.form_label}>Direção</Label>
+          <div className="flex flex-col gap-1.5">
+            <Label className="text-sm font-semibold text-neutral-900">Direção</Label>
             <Select value={direcao} onValueChange={setDirecao}>
               <SelectTrigger className="w-full">
                 <SelectValue />

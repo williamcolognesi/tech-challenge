@@ -25,7 +25,6 @@ import { updateTransaction } from "@/features/transactions/api/actions/updateTra
 
 import { toast } from "sonner";
 import { formatCurrencyInput, parseCurrencyInput } from "./currency-utils";
-import styles from "./page.module.scss";
 
 interface Props {
   transaction: ITransaction;
@@ -71,8 +70,8 @@ export function EditTransactionDialog({ transaction, onClose }: Props) {
           <DialogTitle>Editar transação</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div className={styles.form_group}>
-            <Label htmlFor="edit-valor" className={styles.form_label}>
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="edit-valor" className="text-sm font-semibold text-neutral-900">
               Valor*
             </Label>
             <Input
@@ -85,8 +84,8 @@ export function EditTransactionDialog({ transaction, onClose }: Props) {
             />
           </div>
 
-          <div className={styles.form_group}>
-            <Label htmlFor="edit-descricao" className={styles.form_label}>
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="edit-descricao" className="text-sm font-semibold text-neutral-900">
               Descrição
             </Label>
             <Input
@@ -97,8 +96,8 @@ export function EditTransactionDialog({ transaction, onClose }: Props) {
             />
           </div>
 
-          <div className={styles.form_group}>
-            <Label className={styles.form_label}>Tipo</Label>
+          <div className="flex flex-col gap-1.5">
+            <Label className="text-sm font-semibold text-neutral-900">Tipo</Label>
             <Select value={tipo} onValueChange={setTipo}>
               <SelectTrigger className="w-full">
                 <SelectValue />
@@ -113,8 +112,8 @@ export function EditTransactionDialog({ transaction, onClose }: Props) {
             </Select>
           </div>
 
-          <div className={styles.form_group}>
-            <Label className={styles.form_label}>Direção</Label>
+          <div className="flex flex-col gap-1.5">
+            <Label className="text-sm font-semibold text-neutral-900">Direção</Label>
             <Select value={direcao} onValueChange={setDirecao}>
               <SelectTrigger className="w-full">
                 <SelectValue />
