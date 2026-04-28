@@ -13,6 +13,7 @@ export interface ITransaction {
   direcao: TransactionDirection;
   categoria?: TransactionCategory;
   descricao?: string;
+  dataTransacao: Date;
   dataCadastro: Date;
   dataAtualizacao?: Date;
 }

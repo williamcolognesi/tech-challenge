@@ -6,4 +6,5 @@ export interface ITransactionInput {
   direcao: TransactionDirection;
   categoria?: TransactionCategory;
   descricao?: string;
+  dataTransacao: Date;
 }

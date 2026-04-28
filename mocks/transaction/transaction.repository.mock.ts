@@ -43,12 +43,11 @@ export class MockTransactionRepository implements ITransactionRepository {
                 t.descricao?.toLowerCase().includes(filters.descricao!.toLowerCase())
             );
         if (filters?.dataInicio)
-            results = results.filter(t => t.dataCadastro >= filters.dataInicio!);
-
+            results = results.filter(t => t.dataTransacao >= filters.dataInicio!);
         if (filters?.dataFim)
-            results = results.filter(t => t.dataCadastro <= filters.dataFim!);
+            results = results.filter(t => t.dataTransacao <= filters.dataFim!);
 
-        return results.sort((a, b) => b.dataCadastro.getTime() - a.dataCadastro.getTime());
+        return results.sort((a, b) => b.dataTransacao.getTime() - a.dataTransacao.getTime());
     }
 
     async atualizar(id: number, input: ITransactionInput): Promise<ITransaction | null> {
@@ -67,7 +66,7 @@ export class MockTransactionRepository implements ITransactionRepository {
     async buscarUltimasTransacoes(limit: number): Promise<ITransaction[]> {
         let results = Array.from(this.store.values());
         return results
-            .sort((a, b) => b.dataCadastro.getTime() - a.dataCadastro.getTime())
+            .sort((a, b) => b.dataTransacao.getTime() - a.dataTransacao.getTime())
             .slice(0, limit);
     }
 

@@ -22,8 +22,8 @@ Retorna a lista de transações com filtros opcionais.
 | `filters.direcao` | `TransactionDirection` | não |
 | `filters.categoria` | `TransactionCategory` | não |
 | `filters.descricao` | `string` | não |
-| `filters.dataInicio` | `Date` | não |
-| `filters.dataFim` | `Date` | não |
+| `filters.dataInicio` | `Date` | não — filtra por `dataTransacao` |
+| `filters.dataFim` | `Date` | não — filtra por `dataTransacao` |
 
 > `dataInicio` não pode ser maior que `dataFim`.
 
@@ -73,7 +73,7 @@ const transaction = await getTransactionById(1);
 
 ### `getRecentTransactions(limit?)`
 
-Retorna as transações mais recentes ordenadas por `dataCadastro` descendente.
+Retorna as transações mais recentes ordenadas por `dataTransacao` descendente.
 
 **Retorno:** `Promise<ITransaction[]>`
 
@@ -104,8 +104,8 @@ Se nenhum filtro for informado, calcula o saldo de todas as transações.
 | `filters.direcao` | `TransactionDirection` | não |
 | `filters.categoria` | `TransactionCategory` | não |
 | `filters.descricao` | `string` | não |
-| `filters.dataInicio` | `Date` | não |
-| `filters.dataFim` | `Date` | não |
+| `filters.dataInicio` | `Date` | não — filtra por `dataTransacao` |
+| `filters.dataFim` | `Date` | não — filtra por `dataTransacao` |
 
 ```ts
 // saldo total
@@ -152,8 +152,9 @@ Cria uma nova transação. Valida se o valor é positivo antes de persistir.
 |---|---|---|
 | `input.valor` | `number` | sim |
 | `input.tipo` | `TransactionType` | sim |
-| `input.categoria` | `TransactionCategory` | não |
 | `input.direcao` | `TransactionDirection` | sim |
+| `input.dataTransacao` | `Date` | sim |
+| `input.categoria` | `TransactionCategory` | não |
 | `input.descricao` | `string` | não |
 
 ```ts
@@ -161,6 +162,7 @@ await createTransaction({
   valor: 500,
   tipo: TRANSACTION_TYPE.PIX.codigo,
   direcao: TRANSACTION_DIRECTION.SAIDA.codigo,
+  dataTransacao: new Date('2024-03-01'),
   categoria: TRANSACTION_CATEGORY.ALIMENTACAO.codigo,
   descricao: 'Supermercado',
 });
@@ -182,11 +184,19 @@ Atualiza os dados de uma transação existente. Lança erro se não encontrada.
 | `input.valor` | `number` | sim |
 | `input.tipo` | `TransactionType` | sim |
 | `input.direcao` | `TransactionDirection` | sim |
+| `input.dataTransacao` | `Date` | sim |
 | `input.categoria` | `TransactionCategory` | não |
 | `input.descricao` | `string` | não |
 
 ```ts
-await updateTransaction(1, { valor: 750, tipo: 3, direcao: 2, descricao: 'Pagamento da fatura' });
+await updateTransaction(1, { 
+  valor: 750, 
+  tipo: 3, 
+  direcao: 2,
+  dataTransacao: new Date('2024-03-15'),
+  categoria: TRANSACTION_CATEGORY.CASA.codigo,
+  descricao: 'Pagamento da fatura' 
+});
 ```
 
 ---

@@ -1,6 +1,6 @@
 import type { ITransactionInput } from '../model/transaction.inputs.types';
 import type { ITransactionSearch } from '../model/transaction.search.types';
-import { ITransaction, TransactionDirection } from '../model/transaction.types';
+import { ITransaction } from '../model/transaction.types';
 import { ITransactionRepository } from '../repositories/transaction.repository.interface';
 import { calcularSaldo } from '../utils/calculateBalance';
 
