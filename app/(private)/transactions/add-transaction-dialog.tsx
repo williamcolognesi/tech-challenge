@@ -20,7 +20,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { TRANSACTION_TYPE, TRANSACTION_DIRECTION } from "@/features/transactions/model/constants";
+import { TRANSACTION_TYPE, TRANSACTION_DIRECTION, TRANSACTION_CATEGORY } from "@/features/transactions/model/constants";
+import type { TransactionCategory, TransactionDirection, TransactionType } from "@/features/transactions/model/transaction.types";
 import { createTransaction } from "@/features/transactions/api/actions/createTransaction";
 
 import { toast } from "sonner";
@@ -37,6 +38,7 @@ export function AddTransactionDialog({ onCreated }: Props) {
   const [descricao, setDescricao] = useState("");
   const [tipo, setTipo] = useState(String(TRANSACTION_TYPE.PIX.codigo));
   const [direcao, setDirecao] = useState(String(TRANSACTION_DIRECTION.SAIDA.codigo));
+  const [categoria, setCategoria] = useState("__none__");
 
   function handleValorChange(e: React.ChangeEvent<HTMLInputElement>) {
     setValor(formatCurrencyInput(e.target.value));
@@ -50,8 +52,12 @@ export function AddTransactionDialog({ onCreated }: Props) {
 
     await createTransaction({
       valor: parsedValor,
-      tipo: Number(tipo) as 1 | 2 | 3 | 4 | 5,
-      direcao: Number(direcao) as 1 | 2,
+      tipo: Number(tipo) as TransactionType,
+      direcao: Number(direcao) as TransactionDirection,
+      categoria:
+        categoria === "__none__"
+          ? undefined
+          : (Number(categoria) as TransactionCategory),
       descricao: descricao || nome || undefined,
     });
 
@@ -60,6 +66,7 @@ export function AddTransactionDialog({ onCreated }: Props) {
     setDescricao("");
     setTipo(String(TRANSACTION_TYPE.PIX.codigo));
     setDirecao(String(TRANSACTION_DIRECTION.SAIDA.codigo));
+    setCategoria("__none__");
     setOpen(false);
     onCreated();
     toast.success("Transação adicionada com sucesso!");
@@ -68,7 +75,9 @@ export function AddTransactionDialog({ onCreated }: Props) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>Adicionar item</Button>
+        <Button type="button" className="h-11 w-full sm:h-10 sm:w-auto">
+          Adicionar item
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -142,6 +151,26 @@ export function AddTransactionDialog({ onCreated }: Props) {
                     {d.descricao}
                   </SelectItem>
                 ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <Label className="text-sm font-semibold text-neutral-900">Categoria</Label>
+            <Select value={categoria} onValueChange={setCategoria}>
+              <SelectTrigger className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="__none__">Sem categoria</SelectItem>
+                {(Object.keys(TRANSACTION_CATEGORY) as (keyof typeof TRANSACTION_CATEGORY)[]).map((key) => {
+                  const c = TRANSACTION_CATEGORY[key];
+                  return (
+                    <SelectItem key={c.codigo} value={String(c.codigo)}>
+                      {c.descricao}
+                    </SelectItem>
+                  );
+                })}
               </SelectContent>
             </Select>
           </div>

@@ -19,8 +19,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-import { TRANSACTION_TYPE, TRANSACTION_DIRECTION } from "@/features/transactions/model/constants";
-import type { ITransaction } from "@/features/transactions/model/transaction.types";
+import { TRANSACTION_TYPE, TRANSACTION_DIRECTION, TRANSACTION_CATEGORY } from "@/features/transactions/model/constants";
+import type { ITransaction, TransactionCategory, TransactionDirection, TransactionType } from "@/features/transactions/model/transaction.types";
 import { updateTransaction } from "@/features/transactions/api/actions/updateTransaction";
 
 import { toast } from "sonner";
@@ -41,6 +41,9 @@ export function EditTransactionDialog({ transaction, onClose }: Props) {
   const [descricao, setDescricao] = useState(transaction.descricao ?? "");
   const [tipo, setTipo] = useState(String(transaction.tipo));
   const [direcao, setDirecao] = useState(String(transaction.direcao));
+  const [categoria, setCategoria] = useState(
+    transaction.categoria != null ? String(transaction.categoria) : "__none__",
+  );
 
   function handleValorChange(e: React.ChangeEvent<HTMLInputElement>) {
     setValor(formatCurrencyInput(e.target.value));
@@ -54,8 +57,12 @@ export function EditTransactionDialog({ transaction, onClose }: Props) {
 
     await updateTransaction(transaction.id, {
       valor: parsedValor,
-      tipo: Number(tipo) as 1 | 2 | 3 | 4 | 5,
-      direcao: Number(direcao) as 1 | 2,
+      tipo: Number(tipo) as TransactionType,
+      direcao: Number(direcao) as TransactionDirection,
+      categoria:
+        categoria === "__none__"
+          ? undefined
+          : (Number(categoria) as TransactionCategory),
       descricao: descricao || undefined,
     });
 
@@ -124,6 +131,26 @@ export function EditTransactionDialog({ transaction, onClose }: Props) {
                     {d.descricao}
                   </SelectItem>
                 ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <Label className="text-sm font-semibold text-neutral-900">Categoria</Label>
+            <Select value={categoria} onValueChange={setCategoria}>
+              <SelectTrigger className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="__none__">Sem categoria</SelectItem>
+                {(Object.keys(TRANSACTION_CATEGORY) as (keyof typeof TRANSACTION_CATEGORY)[]).map((key) => {
+                  const c = TRANSACTION_CATEGORY[key];
+                  return (
+                    <SelectItem key={c.codigo} value={String(c.codigo)}>
+                      {c.descricao}
+                    </SelectItem>
+                  );
+                })}
               </SelectContent>
             </Select>
           </div>

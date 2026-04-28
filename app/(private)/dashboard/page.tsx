@@ -5,16 +5,12 @@ import { DashboardContent } from "./dashboard-content";
 
 export default async function DashboardPage() {
   const balance = await getBalance();
-  const income = await getBalance(
-    undefined,
-    undefined,
-    TRANSACTION_DIRECTION.ENTRADA.codigo
-  );
-  const expense = await getBalance(
-    undefined,
-    undefined,
-    TRANSACTION_DIRECTION.SAIDA.codigo
-  );
+  const income = await getBalance({
+    direcao: TRANSACTION_DIRECTION.ENTRADA.codigo,
+  });
+  const expense = await getBalance({
+    direcao: TRANSACTION_DIRECTION.SAIDA.codigo,
+  });
   const recentTransactions = await getRecentTransactions();
 
   return (
