@@ -1,8 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
+import { CalendarIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -19,13 +23,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 import { TRANSACTION_TYPE, TRANSACTION_DIRECTION, TRANSACTION_CATEGORY } from "@/features/transactions/model/constants";
 import type { TransactionCategory, TransactionDirection, TransactionType } from "@/features/transactions/model/transaction.types";
 import { createTransaction } from "@/features/transactions/api/actions/createTransaction";
 
+import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { formatCurrencyInput, parseCurrencyInput } from "./currency-utils";
+import { startOfLocalDay } from "./transaction-date-input";
 
 interface Props {
   onCreated: () => void;
@@ -38,6 +45,8 @@ export function AddTransactionDialog({ onCreated }: Props) {
   const [tipo, setTipo] = useState(String(TRANSACTION_TYPE.PIX.codigo));
   const [direcao, setDirecao] = useState(String(TRANSACTION_DIRECTION.SAIDA.codigo));
   const [categoria, setCategoria] = useState("__none__");
+  const [dataTransacao, setDataTransacao] = useState(() => startOfLocalDay(new Date()));
+  const [dataPopoverOpen, setDataPopoverOpen] = useState(false);
 
   function handleValorChange(e: React.ChangeEvent<HTMLInputElement>) {
     setValor(formatCurrencyInput(e.target.value));
@@ -53,6 +62,7 @@ export function AddTransactionDialog({ onCreated }: Props) {
       valor: parsedValor,
       tipo: Number(tipo) as TransactionType,
       direcao: Number(direcao) as TransactionDirection,
+      dataTransacao,
       categoria:
         categoria === "__none__"
           ? undefined
@@ -62,6 +72,7 @@ export function AddTransactionDialog({ onCreated }: Props) {
 
     setValor("");
     setDescricao("");
+    setDataTransacao(startOfLocalDay(new Date()));
     setTipo(String(TRANSACTION_TYPE.PIX.codigo));
     setDirecao(String(TRANSACTION_DIRECTION.SAIDA.codigo));
     setCategoria("__none__");
@@ -71,7 +82,13 @@ export function AddTransactionDialog({ onCreated }: Props) {
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog
+      open={open}
+      onOpenChange={(next) => {
+        setOpen(next);
+        if (!next) setDataPopoverOpen(false);
+      }}
+    >
       <DialogTrigger asChild>
         <Button type="button" className="h-11 w-full sm:h-10 sm:w-auto">
           Adicionar item
@@ -94,6 +111,45 @@ export function AddTransactionDialog({ onCreated }: Props) {
               inputMode="numeric"
               required
             />
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="add-data-transacao" className="text-sm font-semibold text-neutral-900">
+              Data da transação*
+            </Label>
+            <Popover modal={false} open={dataPopoverOpen} onOpenChange={setDataPopoverOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  id="add-data-transacao"
+                  type="button"
+                  variant="outline"
+                  className={cn("h-11 w-full justify-start px-3 text-left font-normal sm:h-10")}
+                  aria-expanded={dataPopoverOpen}
+                >
+                  <CalendarIcon className="mr-2 size-4 shrink-0 opacity-60" aria-hidden />
+                  {format(dataTransacao, "d 'de' MMMM 'de' yyyy", { locale: ptBR })}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent
+                className="z-[100] w-auto overflow-hidden p-0"
+                align="start"
+                sideOffset={8}
+              >
+                <Calendar
+                  mode="single"
+                  captionLayout="dropdown"
+                  selected={dataTransacao}
+                  defaultMonth={dataTransacao}
+                  onSelect={(d) => {
+                    if (d) {
+                      setDataTransacao(startOfLocalDay(d));
+                      setDataPopoverOpen(false);
+                    }
+                  }}
+                  locale={ptBR}
+                />
+              </PopoverContent>
+            </Popover>
           </div>
 
           <div className="flex flex-col gap-1.5">

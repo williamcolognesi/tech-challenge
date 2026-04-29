@@ -87,11 +87,11 @@ function groupByDay(transactions: ITransaction[]) {
 
   const sorted = [...transactions].sort(
     (a, b) =>
-      new Date(b.dataCadastro).getTime() - new Date(a.dataCadastro).getTime()
+      new Date(b.dataTransacao).getTime() - new Date(a.dataTransacao).getTime()
   );
 
   for (const t of sorted) {
-    const date = new Date(t.dataCadastro);
+    const date = new Date(t.dataTransacao);
     const key = date.toLocaleDateString("pt-BR", {
       weekday: "long",
       day: "numeric",
@@ -123,7 +123,7 @@ export function TransactionsContent({ transactions }: Props) {
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
 
   const filteredByMonth = transactions.filter((t) => {
-    const d = new Date(t.dataCadastro);
+    const d = new Date(t.dataTransacao);
     const tMonth = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
     return tMonth === month;
   });
@@ -333,6 +333,7 @@ export function TransactionsContent({ transactions }: Props) {
 
       {editingTransaction && (
         <EditTransactionDialog
+          key={editingTransaction.id}
           transaction={editingTransaction}
           onClose={() => {
             setEditingTransaction(null);
