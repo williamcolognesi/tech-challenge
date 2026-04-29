@@ -26,6 +26,7 @@ import {
   CircleDollarSign,
 } from 'lucide-react';
 import { TRANSACTION_TYPE, TRANSACTION_DIRECTION } from '@/features/transactions/model/constants';
+import { MOCK_NEWS } from '@/mocks/news/data/news';
 import type { ITransaction } from '@/features/transactions/model/transaction.types';
 
 interface Props {
@@ -33,59 +34,11 @@ interface Props {
   income: number;
   expense: number;
   recentTransactions: ITransaction[];
+  revenueVsExpenses: Array<{ month: string; receitas: number; despesas: number }>;
+  expensesByCategory: Array<{ name: string; value: number; color: string }>;
 }
 
-const barChartData = [
-  { month: 'Jan', receitas: 4000, despesas: 2400 },
-  { month: 'Fev', receitas: 3000, despesas: 1398 },
-  { month: 'Mar', receitas: 5200, despesas: 9800 },
-  { month: 'Abr', receitas: 4800, despesas: 3908 },
-  { month: 'Mai', receitas: 6100, despesas: 4800 },
-  { month: 'Jun', receitas: 5500, despesas: 3800 },
-];
 
-const pieChartData = [
-  { name: 'Alimentação', value: 2400, color: '#ef4444' },
-  { name: 'Transporte', value: 1398, color: '#f97316' },
-  { name: 'Lazer', value: 1500, color: '#eab308' },
-  { name: 'Saúde', value: 800, color: '#22c55e' },
-  { name: 'Outros', value: 1200, color: '#06b6d4' },
-];
-
-const newsData = [
-  {
-    id: 1,
-    title: 'Banco Central mantém taxa Selic em 10,5%',
-    description: 'O Banco Central decidiu manter a taxa de juros estável conforme esperado pelo mercado financeiro.',
-    date: '21 de Abril, 2024',
-    category: 'Política Monetária',
-    color: 'bg-blue-50',
-  },
-  {
-    id: 2,
-    title: 'Dólar fecha em alta de 2,3%',
-    description: 'A moeda americana encerrou o pregão em valorização, impactando os ativos domésticos e carteira de investimentos.',
-    date: '20 de Abril, 2024',
-    category: 'Câmbio',
-    color: 'bg-orange-50',
-  },
-  {
-    id: 3,
-    title: 'Ibovespa termina semana em queda de 1,8%',
-    description: 'Principal índice da bolsa brasileira recua devido à cautela global e incertezas econômicas internacionais.',
-    date: '19 de Abril, 2024',
-    category: 'Bolsa',
-    color: 'bg-red-50',
-  },
-  {
-    id: 4,
-    title: 'Inflação cai para 3,9% em março',
-    description: 'O índice de inflação apresenta queda significativa, favorecendo a capacidade de compra dos consumidores.',
-    date: '18 de Abril, 2024',
-    category: 'Economia',
-    color: 'bg-green-50',
-  },
-];
 
 function formatCurrency(value: number) {
   return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -136,7 +89,14 @@ function StatCard({
   );
 }
 
-export function DashboardContent({ balance, income, expense, recentTransactions }: Props) {
+export function DashboardContent({
+  balance,
+  income,
+  expense,
+  recentTransactions,
+  revenueVsExpenses,
+  expensesByCategory,
+}: Props) {
   const absExpense = Math.abs(expense);
 
   return (
@@ -226,24 +186,30 @@ export function DashboardContent({ balance, income, expense, recentTransactions 
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <ResponsiveContainer width="100%" height={250}>
-                <BarChart data={barChartData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                  <XAxis dataKey="month" stroke="#9ca3af" />
-                  <YAxis stroke="#9ca3af" />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: '#fff',
-                      border: '1px solid #e5e7eb',
-                      borderRadius: '8px',
-                    }}
-                    formatter={(value) => `R$ ${value}`}
-                  />
-                  <Legend />
-                  <Bar dataKey="receitas" fill="#22c55e" radius={[8, 8, 0, 0]} />
-                  <Bar dataKey="despesas" fill="#ef4444" radius={[8, 8, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
+              {revenueVsExpenses.length === 0 ? (
+                <div className="flex items-center justify-center h-[250px] text-gray-500">
+                  Nenhum dado disponível
+                </div>
+              ) : (
+                <ResponsiveContainer width="100%" height={250}>
+                  <BarChart data={revenueVsExpenses}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                    <XAxis dataKey="month" stroke="#9ca3af" />
+                    <YAxis stroke="#9ca3af" />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: '#fff',
+                        border: '1px solid #e5e7eb',
+                        borderRadius: '8px',
+                      }}
+                      formatter={(value) => `R$ ${value}`}
+                    />
+                    <Legend />
+                    <Bar dataKey="receitas" fill="#22c55e" radius={[8, 8, 0, 0]} />
+                    <Bar dataKey="despesas" fill="#ef4444" radius={[8, 8, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              )}
             </CardContent>
           </Card>
 
@@ -254,24 +220,30 @@ export function DashboardContent({ balance, income, expense, recentTransactions 
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <ResponsiveContainer width="100%" height={200}>
-                <PieChart>
-                  <Pie
-                    data={pieChartData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={60}
-                    outerRadius={80}
-                    paddingAngle={2}
-                    dataKey="value"
-                  >
-                    {pieChartData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip formatter={(value) => `R$ ${value}`} />
-                </PieChart>
-              </ResponsiveContainer>
+              {expensesByCategory.length === 0 ? (
+                <div className="flex items-center justify-center h-[200px] text-gray-500">
+                  Nenhuma despesa cadastrada
+                </div>
+              ) : (
+                <ResponsiveContainer width="100%" height={200}>
+                  <PieChart>
+                    <Pie
+                      data={expensesByCategory}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={80}
+                      paddingAngle={2}
+                      dataKey="value"
+                    >
+                      {expensesByCategory.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip formatter={(value) => `R$ ${value}`} />
+                  </PieChart>
+                </ResponsiveContainer>
+              )}
             </CardContent>
           </Card>
         </div>
@@ -283,7 +255,7 @@ export function DashboardContent({ balance, income, expense, recentTransactions 
           Últimas notícias do mundo financeiro
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {newsData.map((news) => (
+          {MOCK_NEWS.map((news) => (
             <Card
               key={news.id}
               className={`rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow cursor-pointer ${news.color}`}
