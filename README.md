@@ -183,7 +183,6 @@ npm run build-storybook
 │   ├── layout.tsx            # Root Layout (Injeção de fontes e CSS global)
 │   ├── globals.css           # Tailwind CSS e classes globais
 │   └── page.tsx              # Pagina inicial
-
 │
 ├── components/               # DESIGN SYSTEM E COMPONENTES ESTRUTURAIS        
 │   │
@@ -227,7 +226,6 @@ npm run build-storybook
     ├── user/
     │   ├── data/
     │   │   └── news.ts        # Dados de usuarios
-
 ```
 
 ## 🤝 Contribuindo
