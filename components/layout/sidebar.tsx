@@ -1,39 +1,46 @@
-'use client';
+"use client"
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { Wallet, LayoutDashboard, ArrowLeftRight, LogOut, Menu } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
+import { useState } from "react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import {
+  Wallet,
+  LayoutDashboard,
+  ArrowLeftRight,
+  LogOut,
+  Menu,
+} from "lucide-react"
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
 import {
   Sheet,
   SheetContent,
   SheetTrigger,
   SheetClose,
-} from '@/components/ui/sheet';
+} from "@/components/ui/sheet"
 
 const navItems = [
   {
-    title: 'Dashboard',
-    href: '/dashboard',
+    title: "Dashboard",
+    href: "/dashboard",
     icon: LayoutDashboard,
   },
   {
-    title: 'Transações',
-    href: '/transactions',
+    title: "Transações",
+    href: "/transactions",
     icon: ArrowLeftRight,
   },
-];
+]
 
 export function Sidebar() {
-  const pathname = usePathname();
-  const [open, setOpen] = useState(false);
+  const pathname = usePathname()
+  const [open, setOpen] = useState(false)
 
   const isActive = (href: string) => {
-    return pathname === href || pathname.startsWith(href + '/');
-  };
+    if (!pathname) return false
+    return pathname === href || pathname.startsWith(href + "/")
+  }
 
   const SidebarContent = () => (
     <>
@@ -56,23 +63,27 @@ export function Sidebar() {
       {/* Navigation */}
       <nav className="flex-1 space-y-1">
         {navItems.map((item) => {
-          const Icon = item.icon;
-          const active = isActive(item.href);
+          const Icon = item.icon
+          const active = isActive(item.href)
 
           return (
-            <Link key={item.href} href={item.href} onClick={() => setOpen(false)}>
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => setOpen(false)}
+            >
               <Button
                 variant="ghost"
                 className={cn(
-                  'w-full justify-start gap-3 transition-colors',
-                  active && 'bg-blue-50 text-blue-600 hover:bg-blue-50'
+                  "w-full justify-start gap-3 transition-colors",
+                  active && "bg-blue-50 text-blue-600 hover:bg-blue-50",
                 )}
               >
                 <Icon className="w-5 h-5 flex-shrink-0" />
                 <span className="text-sm">{item.title}</span>
               </Button>
             </Link>
-          );
+          )
         })}
       </nav>
 
@@ -92,7 +103,7 @@ export function Sidebar() {
         </Link>
       </div>
     </>
-  );
+  )
 
   return (
     <>
@@ -118,5 +129,5 @@ export function Sidebar() {
         <p className="font-semibold text-gray-900">No Bolso.</p>
       </div>
     </>
-  );
+  )
 }

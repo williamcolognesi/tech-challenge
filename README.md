@@ -1,68 +1,196 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# No Bolso - Aplicativo de Gestão de Transações Financeiras
 
-## Getting Started
+Um aplicativo moderno para controle de finanças pessoais construído com **Next.js 16**, **React 19**, **TypeScript**, **Tailwind CSS** e **Shadcn/ui**.
 
-First, run the development server:
+## 🚀 Características
+
+- 💰 **Dashboard** com saldo em tempo real e extrato de transações
+- ➕ **Gestão de Transações** - adicionar, editar e remover transações
+- 📊 **Relatórios** - visualizar movimentações por categoria e período
+- 🎨 **Design Responsivo** - interface adaptável para desktop, tablet e mobile
+- 🔐 **Autenticação Mock** - fluxo de login/registro para testes
+- 📖 **Storybook** - documentação completa de componentes
+
+## 🛠️ Stack de Tecnologias
+
+- **Framework:** Next.js 16.2.2 com App Router
+- **Linguagem:** TypeScript 5
+- **UI:** React 19.2.4
+- **Estilos:** Tailwind CSS 4
+- **Componentes:** Shadcn/ui (18+ componentes)
+- **Documentação:** Storybook 10.3.6
+- **Ferramentas:** ESLint, PostCSS
+
+## 📋 Pré-requisitos
+
+- Node.js 18+ e npm 9+
+- Navegador moderno (Chrome, Firefox, Safari ou Edge)
+
+## ⚙️ Instalação e Execução
+
+### 1. Clonar e Instalar Dependências
+
+```bash
+# Clonar o repositório
+git clone <url-do-repositorio>
+cd tech-challenge
+
+# Instalar dependências
+npm install
+```
+
+### 2. Executar em Desenvolvimento
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse [http://localhost:3000](http://localhost:3000) para ver a aplicação.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Credenciais de Teste:**
+- Email: `teste@email.com`
+- Senha: qualquer valor
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 3. Visualizar Documentação de Componentes
 
-## Learn More
+```bash
+npm run storybook
+```
 
-To learn more about Next.js, take a look at the following resources:
+Acesse [http://localhost:6007](http://localhost:6007) para explorar todos os componentes documentados.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📦 Build e Deploy
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Build de Produção
+
+```bash
+npm run build
+```
+
+Gera uma versão otimizada em `.next/`
+
+### Iniciar Servidor de Produção
+
+```bash
+npm run start
+```
+
+Inicia o servidor em modo produção (requer `npm run build` prévio).
+
+### Build Estático do Storybook
+
+```bash
+npm run build-storybook
+```
+
+Gera versão estática do Storybook em `storybook-static/`
+
+## 🔍 Qualidade de Código
+
+```bash
+npm run lint
+```
+
+Verifica erros e avisos de código com ESLint.
+
+## 🏗️ Principais Funcionalidades
+
+### Autenticação
+- Fluxo de login/registro com mock de dados
+- Proteção de rotas privadas com middleware
+- Persistência de sessão com cookies
+
+### Dashboard (Página Inicial)
+- Exibição de saldo total da conta
+- Extrato das últimas transações
+- Visualização de tendências
+
+### Gestão de Transações
+- Criar nova transação com categoria
+- Editar transação existente
+- Remover transação com confirmação
+- Filtrar por período e categoria
+- Busca por descrição
+
+### Design System
+- 18+ componentes reutilizáveis documentados
+- Tema consistente com Tailwind CSS
+- Componentes responsivos e acessíveis
+
+## 📚 Documentação de Componentes
+
+O projeto inclui documentação completa de todos os componentes através do Storybook:
+
+```bash
+npm run storybook
+```
+
+**Componentes Documentados:**
+- **UI Base:** Button, Input, Card, Badge, Dialog, Select, Avatar, Checkbox, Label, Separator, Popover, Sheet, AlertDialog, Table, Calendar, Chart
+- **Componentes de Layout:** Header, Sidebar
+- **Componentes Customizados:** VirtualCard
+
+Cada componente possui múltiplas histórias (stories) demonstrando diferentes estados e variações.
+
+## 🔄 Fluxo de Desenvolvimento
+
+1. **Desenvolver** - Execute `npm run dev` e edite os arquivos
+2. **Componentes** - Crie stories no Storybook durante o desenvolvimento (`npm run storybook`)
+3. **Build** - Valide com `npm run build` antes de commits
+4. **Deploy** - O build é otimizado automaticamente para produção
+
+## 🧪 Testes e Validação
+
+```bash
+# Executar build de produção
+npm run build
+
+# Verificar qualidade de código
+npm run lint
+
+# Construir Storybook estático
+npm run build-storybook
+```
+
+## 📖 Recursos de Aprendizado
+
+- [Documentação Next.js](https://nextjs.org/docs) - Features e API
+- [React Documentation](https://react.dev) - Conceitos e hooks
+- [Tailwind CSS](https://tailwindcss.com/docs) - Guia de classes
+- [Shadcn/ui](https://ui.shadcn.com) - Componentes base
+- [Storybook](https://storybook.js.org/docs) - Documentação interativa
 
 ## Estrutura de pastas
 
 ```text
-src/
 ├── app/                      # CAMADA DE ROTEAMENTO E ORQUESTRAÇÃO
-│                             # Aqui ficam APENAS as páginas visíveis na URL.
-│                             # Nenhuma regra de negócio pesada deve ficar aqui.
 │   │
 │   ├── (auth)/               # GRUPO PÚBLICO: Fluxo de Autenticação
 │   │   ├── login/
 │   │   │   └── page.tsx      # Rota: /login
-│   │   └── layout.tsx        # Layout simples (ex: tela cheia, sem sidebar)
+│   │   ├── registro/
+│   │   │   └── page.tsx      # Rota: /registro
+│   │   └── layout.tsx    
 │   │
-│   ├── (private)/            # GRUPO PRIVADO: A Aplicação Principal
-│   │   ├── page.tsx          # Rota: / (Home Page - Saldo da conta e Extrato)
+│   ├── (private)/            # GRUPO PRIVADO
+│   │   ├── dashboard/
+│   │   │   └── page.tsx      # Rota: /dashboard (Listagem de transações)
+│   │   │   └── dashboard-content.tsx 
 │   │   ├── transactions/
 │   │   │   └── page.tsx      # Rota: /transactions (Listagem de transações)
-│   │   └── layout.tsx        # Layout complexo (Sidebar, Header de usuário logado)
+│   │   └── layout.tsx        # Layout aplicacao
 │   │
 │   ├── layout.tsx            # Root Layout (Injeção de fontes e CSS global)
-│   └── globals.css           # Tailwind CSS e classes globais
+│   ├── globals.css           # Tailwind CSS e classes globais
+│   └── page.tsx              # Pagina inicial
+
 │
-├── components/               # DESIGN SYSTEM E COMPONENTES ESTRUTURAIS
-│                             # Tudo aqui é "burro". Não sabem o que é uma transação ou login.
+├── components/               # DESIGN SYSTEM E COMPONENTES ESTRUTURAIS        
 │   │
 │   ├── ui/                   # Os componentes base do Design System.
-│   │                         # Aqui ficarão os wrappers do PrimeReact(Unstyled) ou Shadcn + Tailwind.
-│   │                         # Ex: Button.tsx, Modal.tsx, Input.tsx.
-│   │
 │   └── layout/               # Peças visuais que compõem o layout da página.
-│                             # Ex: Sidebar.tsx, Header.tsx, UserMenu.tsx.
 │
-├── features/                 # O CORAÇÃO DO SISTEMA (Domínios de Negócio)
-│                             # REGRA DE OURO: Uma feature não importa arquivos de outra feature.
+├── features/                 # Domínios de Negócio
 │   │
 │   ├── transactions/         # DOMÍNIO: Transações Financeiras
 │   │   ├── api/              # Funções isoladas de entrada e saída de dados
@@ -83,29 +211,34 @@ src/
 │       └── components/       # LoginForm, RegisterForm
 │
 ├── lib/                      # FERRAMENTAS E INTEGRAÇÕES
-│                             # Configurações de terceiros e utilitários que não são regra de negócio.
 │   │
 │   ├── factories/            # Instâncias singleton dos serviços da aplicação
 │   │   └── transaction.factory.ts  # Define qual repositório usar
 │   └── utils.ts              # Utilitários genéricos (ex: formatação de moeda, datas, merge de classes)
 │
-├── mocks/                    # SIMULAÇÃO DE DADOS
-│                             # Simula a camada de persistência durante o desenvolvimento.
-│                             # Substituível pelo banco real sem alterar features ou services.
-│   └── transaction/
-│       ├── data/
-│       │   └── transactions.ts             # Dados iniciais (seed) de transações
-│       └── transaction.repository.mock.ts  # Implementação em memória do ITransactionRepository
-│
-└── proxy.ts                  # O GUARDIÃO DA BORDA (Segurança)
-                              # Intercepta as rotas do (dashboard) e verifica os cookies.
-                              # Se o mock de usuário não estiver logado, redireciona para /login.
+└── mocks/                    # SIMULAÇÃO DE DADOS
+    ├── transaction/
+    │   ├── data/
+    │   │   └── transactions.ts             # Dados iniciais (seed) de transações
+    │   └── transaction.repository.mock.ts  # Implementação em memória do ITransactionRepository
+    ├── news/
+    │   ├── data/
+    │   │   └── news.ts        # Dados de noticias
+    ├── user/
+    │   ├── data/
+    │   │   └── news.ts        # Dados de usuarios
+
 ```
 
-## Boas praticas de Arquitetura
+## 🤝 Contribuindo
 
-> **1. A Regra do Design System:** Não se deve importar o a lib de componentes diretamente nas páginas do `app/` ou nas `features/`. Todos os componentes devem passar pelo nosso Design System (`src/components/ui/`).
+Ao contribuir para este projeto, siga as boas práticas de arquitetura descritas acima e garanta que:
 
-> **2. A Regra da Responsabilidade Visual:** A pasta `app/` serve apenas para criar a URL e juntar as peças. Se o arquivo da página (`page.tsx`) começar a ter responsabilidades, extraia a lógica para um componente dentro da respectiva `feature/`.
+1. Todo componente novo tenha uma story correspondente no Storybook
+2. O build passa sem erros (`npm run build`)
+3. O código segue os padrões do linter (`npm run lint`)
+4. A estrutura de pastas não é modificada sem discussão prévia
 
-> **3. A Regra do Isolamento de Domínio:** Se a `feature/auth` precisar conversar com a `feature/transactions`, isso deve ser feito pela página no `app/` através de injeção de propriedades (Slots/Children), NUNCA através de imports diretos entre as pastas.
+## 📝 Licença
+
+Este projeto é fornecido para fins educacionais como parte do desafio técnico FIAP.
