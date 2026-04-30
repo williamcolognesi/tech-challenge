@@ -223,9 +223,9 @@ npm run build-storybook
     ├── news/
     │   ├── data/
     │   │   └── news.ts        # Dados de noticias
-    ├── user/
-    │   ├── data/
-    │   │   └── news.ts        # Dados de usuarios
+    └── user/
+        └── data/
+            └── news.ts        # Dados de usuarios
 ```
 
 ## 🤝 Contribuindo
