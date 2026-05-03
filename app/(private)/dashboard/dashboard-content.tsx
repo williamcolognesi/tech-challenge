@@ -19,7 +19,7 @@ import {
 import {
   TrendingUp,
   TrendingDown,
-dashboard-content  Zap,
+  Zap,
   Landmark,
   ArrowLeftRight,
   Banknote,
