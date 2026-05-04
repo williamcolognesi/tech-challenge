@@ -32,7 +32,7 @@ Um aplicativo moderno para controle de finanças pessoais construído com **Next
 
 ```bash
 # Clonar o repositório
-git clone <url-do-repositorio>
+git clone https://github.com/williamcolognesi/tech-challenge.git
 cd tech-challenge
 
 # Instalar dependências
