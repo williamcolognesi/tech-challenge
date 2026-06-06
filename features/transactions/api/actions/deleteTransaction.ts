@@ -1,10 +1,10 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { transactionService } from '@/lib/factories/transaction.factory';
+import { api } from '@/lib/api/client';
 
 export async function deleteTransaction(id: number): Promise<void> {
-    await transactionService.deletar(id);
-    revalidatePath('/dashboard');
-    revalidatePath('/transactions');
+  await api.delete(`/transacoes/${id}`);
+  revalidatePath('/dashboard');
+  revalidatePath('/transactions');
 }

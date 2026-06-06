@@ -1,13 +1,22 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { transactionService } from '@/lib/factories/transaction.factory';
+import { api } from '@/lib/api/client';
+import { toITransaction } from '../../mappers/transaction.mapper';
+import type { ITransactionResponseDTO } from '../../dto/transaction.response.dto';
 import type { ITransactionInput } from '../../model/transaction.inputs.types';
-import { ITransaction } from '../../model/transaction.types';
+import type { ITransaction } from '../../model/transaction.types';
 
 export async function updateTransaction(id: number, input: ITransactionInput): Promise<ITransaction> {
-    const transaction = await transactionService.atualizar(id, input);
-    revalidatePath('/dashboard');
-    revalidatePath('/transactions');
-    return transaction;
+  const response = await api.put<ITransactionResponseDTO>(`/transacoes/${id}`, {
+    valor: input.valor,
+    tipo: input.tipo,
+    direcao: input.direcao,
+    categoria: input.categoria,
+    descricao: input.descricao,
+    dataTransacao: input.dataTransacao.toISOString(),
+  });
+  revalidatePath('/dashboard');
+  revalidatePath('/transactions');
+  return toITransaction(response);
 }

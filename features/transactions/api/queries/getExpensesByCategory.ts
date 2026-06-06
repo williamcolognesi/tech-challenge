@@ -1,4 +1,6 @@
-import { transactionService } from '@/lib/factories/transaction.factory';
+import { api } from '@/lib/api/client';
+import { toITransaction } from '../../mappers/transaction.mapper';
+import type { ITransactionResponseDTO } from '../../dto/transaction.response.dto';
 import { TRANSACTION_CATEGORY, TRANSACTION_DIRECTION } from '../../model/constants';
 import type { ITransaction } from '../../model/transaction.types';
 
@@ -24,12 +26,12 @@ function getCategoryName(codigo: number): string {
 }
 
 export async function getExpensesByCategory(): Promise<CategoryData[]> {
-  const transactions = await transactionService.pesquisar({
-    direcao: TRANSACTION_DIRECTION.SAIDA.codigo,
-  });
+  const response = await api.get<ITransactionResponseDTO[]>(
+    `/transacoes?direcao=${TRANSACTION_DIRECTION.SAIDA.codigo}`
+  );
+  const transactions = response.map(toITransaction);
 
   const categoryMap = new Map<number, number>();
-
   transactions.forEach((tx: ITransaction) => {
     if (tx.categoria !== undefined) {
       const current = categoryMap.get(tx.categoria) ?? 0;

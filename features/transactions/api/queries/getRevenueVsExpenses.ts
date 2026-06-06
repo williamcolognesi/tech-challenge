@@ -1,4 +1,6 @@
-import { transactionService } from '@/lib/factories/transaction.factory';
+import { api } from '@/lib/api/client';
+import { toITransaction } from '../../mappers/transaction.mapper';
+import type { ITransactionResponseDTO } from '../../dto/transaction.response.dto';
 import { TRANSACTION_DIRECTION } from '../../model/constants';
 import type { ITransaction } from '../../model/transaction.types';
 
@@ -15,7 +17,8 @@ function getMonthKey(date: Date): string {
 }
 
 export async function getRevenueVsExpenses(monthsBack: number = 6): Promise<ChartData[]> {
-  const transactions = await transactionService.pesquisar();
+  const response = await api.get<ITransactionResponseDTO[]>('/transacoes');
+  const transactions = response.map(toITransaction);
 
   const monthsMap = new Map<string, { receitas: number; despesas: number }>();
   const monthKeys: string[] = [];
@@ -30,7 +33,6 @@ export async function getRevenueVsExpenses(monthsBack: number = 6): Promise<Char
 
   transactions.forEach((tx: ITransaction) => {
     const monthKey = getMonthKey(new Date(tx.dataTransacao));
-    
     if (monthsMap.has(monthKey)) {
       const data = monthsMap.get(monthKey)!;
       if (tx.direcao === TRANSACTION_DIRECTION.ENTRADA.codigo) {
@@ -41,17 +43,13 @@ export async function getRevenueVsExpenses(monthsBack: number = 6): Promise<Char
     }
   });
 
-  const result: ChartData[] = monthKeys.map((monthKey) => {
+  return monthKeys.map((monthKey) => {
     const value = monthsMap.get(monthKey)!;
-    const [year, month] = monthKey.split('-');
-    const monthIndex = parseInt(month) - 1;
-    const monthName = MONTHS[monthIndex];
+    const [, month] = monthKey.split('-');
     return {
-      month: monthName,
+      month: MONTHS[parseInt(month) - 1],
       receitas: Math.round(value.receitas * 100) / 100,
       despesas: Math.round(value.despesas * 100) / 100,
     };
   });
-
-  return result;
 }
