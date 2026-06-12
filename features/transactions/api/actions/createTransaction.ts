@@ -15,6 +15,7 @@ export async function createTransaction(input: ITransactionInput): Promise<ITran
     categoria: input.categoria,
     descricao: input.descricao,
     dataTransacao: input.dataTransacao.toISOString(),
+    comprovanteId: input.comprovanteId,
   });
   revalidatePath('/dashboard');
   revalidatePath('/transactions');

@@ -15,6 +15,7 @@ export async function updateTransaction(id: number, input: ITransactionInput): P
     categoria: input.categoria,
     descricao: input.descricao,
     dataTransacao: input.dataTransacao.toISOString(),
+    comprovanteId: input.comprovanteId,
   });
   revalidatePath('/dashboard');
   revalidatePath('/transactions');

@@ -7,4 +7,5 @@ export interface ITransactionInput {
   categoria?: TransactionCategory;
   descricao?: string;
   dataTransacao: Date;
+  comprovanteId?: number;
 }

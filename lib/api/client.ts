@@ -1,4 +1,4 @@
-const API_URL = process.env.API_URL ?? 'http://localhost:8080/api';
+export const API_URL = process.env.API_URL ?? 'http://localhost:8080/api';
 
 export class ApiUnavailableError extends Error {
   constructor() {
@@ -8,9 +8,10 @@ export class ApiUnavailableError extends Error {
 }
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  const isFormData = init?.body instanceof FormData;
   try {
     const res = await fetch(`${API_URL}${path}`, {
-      headers: { 'Content-Type': 'application/json' },
+      ...(!isFormData && { headers: { 'Content-Type': 'application/json' } }),
       ...init,
     });
 
@@ -35,5 +36,9 @@ export const api = {
     request<T>(path, { method: 'POST', body: JSON.stringify(body) }),
   put: <T>(path: string, body: unknown) =>
     request<T>(path, { method: 'PUT', body: JSON.stringify(body) }),
+  postFile: <T>(path: string, formData: FormData) =>
+    request<T>(path, { method: 'POST', body: formData }),
+  putFile: <T>(path: string, formData: FormData) =>
+    request<T>(path, { method: 'PUT', body: formData }),
   delete: (path: string) => request<void>(path, { method: 'DELETE' }),
 };

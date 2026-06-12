@@ -6,6 +6,12 @@ export type TransactionType = typeof TRANSACTION_TYPE[keyof typeof TRANSACTION_T
 
 export type TransactionCategory = typeof TRANSACTION_CATEGORY[keyof typeof TRANSACTION_CATEGORY]['codigo'];
 
+export interface ITransactionComprovante {
+  id: number;
+  nome: string;
+  contentType: string;
+}
+
 export interface ITransaction {
   id: number;
   valor: number;
@@ -16,4 +22,5 @@ export interface ITransaction {
   dataTransacao: Date;
   dataCadastro: Date;
   dataAtualizacao?: Date;
+  comprovante?: ITransactionComprovante;
 }
